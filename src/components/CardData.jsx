@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TypesButton from "./TypesButton";
+import axios from 'axios';
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Card = styled.div`
   height: auto;
@@ -12,7 +14,7 @@ const Card = styled.div`
   border-top: 1px solid rgba(0, 0, 50, 0.2);
   cursor: pointer;
   &:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: #f4f6fc;
   }
 `;
 
@@ -20,10 +22,8 @@ const Title = styled.h5`
   margin: 2rem;
   font-size: 1.2rem;
   font-weight: bold;
-  font-family: Arial, Helvetica, sans-serif;
   &:hover {
-    color: rgba(50, 20, 200, 1);
-    text-decoration: underline;
+    color: #0c6ac1;
   }
   @media screen and (max-width: 768px) {
     font-size: 1rem;
@@ -99,8 +99,10 @@ const ReadMore = ({ children }) => {
 
   const [isShow, setIsShow] = useState(true);
   let result;
-
-  result = isShow ? text.slice(0, 400) : text;
+  if(text){
+    result = isShow ? text.slice(0, 400) : text;
+  }
+  
   const toggleisShow = () => {
     setIsShow(!isShow);
   };
@@ -116,31 +118,37 @@ const ReadMore = ({ children }) => {
 };
 
 const CardData = (props) => {
+  const navigate = useNavigate()
+  const navigateToJob = () => {
+    if(props.status == "current" && props.mode == "selling"){
+      navigate(`/submitJob/${props.username}/${props.job._id}`)
+    }else if (props.status == "available"){
+      if(props.mode == "selling"){
+        navigate(`/job/${props.username}/${props.job._id}`)
+      }else{
+        navigate(`/application/${props.username}/${props.job._id}`)
+      }
+    }else if(props.status == "delivered" && props.mode == "buying"){
+      navigate(`/viewSubmission/${props.username}/${props.job._id}`)
+    }
+  }
   return (
     <>
-      <Card>
-        <Title>Hello world</Title>
+      <Card onClick={navigateToJob}>
+      <Title>{props.mode == "selling" ? props.job.client : props.job.freelancer}</Title>
+        <Title>{props.job.title}</Title>
         <List>
           <PriceType>Fixed-price</PriceType>
-          <Level>Expert</Level>
-          <Budget>Est.Budget:$40</Budget>
+          <Level>{props.job.level}</Level>
+          <Budget>Est.Budget: {props.job.budget}</Budget>
           <PostedTime>Posted 8 hours ago</PostedTime>
         </List>
         <ReadMore>
-          Hi, A very simple and easy task. I am working on a simple flask
-          application, and most part is already done. I just need someone, to
-          help me with some HTML and Javascript. Will prefer if we can jump on a
-          quick call and have a working session
+          {props.status == "delivered" ? props.job.delivery_description : props.mode == "selling" ? props.job.description : props.job.cover
+          }
         </ReadMore>
         <ButtonGroup>
-          <TypesButton />
-          <TypesButton />
-          <TypesButton />
-          <TypesButton />
-          <TypesButton />
-          <TypesButton />
-          <TypesButton />
-          <TypesButton />
+          
         </ButtonGroup>
       </Card>
     </>

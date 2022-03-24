@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Modalbackground = styled.div`
   width: 100%;
   height: 100%;
-  z-index: 999;
-  transition: 0.3s ease-in-out;
+  z-index: 1100;
+  transition: 0.2s ease-in-out;
   background-color: rgba(0, 0, 0, 0.1);
   position: fixed;
   display: flex;
@@ -13,7 +17,7 @@ const Modalbackground = styled.div`
   align-items: center;
   top: 0;
   left: 0;
-  transition: 0.3s ease-in-out;
+  transition: 0.2s ease-in-out;
   opacity: ${({ isOpen }) => (isOpen ? "100%" : "0")};
   top: ${({ isOpen }) => (isOpen ? "0" : "-100%")};
 `;
@@ -23,7 +27,7 @@ const Container = styled.div`
   width: 40%;
   height: 500px;
   background-color: #fff;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  box-shadow: #28b2ff 0px 5px 15px;
   display: flex;
   border-radius: 50px;
   flex-direction: column;
@@ -47,7 +51,7 @@ const CloseButton = styled.button`
   right: 2rem;
   border: none;
   background-color: transparent;
-  color: #aef5ff;
+  color: #0c6ca1;
   cursor: pointer;
   @media screen and (max-width: 950px) {
     top: 2rem;
@@ -59,7 +63,7 @@ const Heading = styled.h4`
   font-size: 2rem;
   font-weight: bold;
   text-align: center;
-  color: #aef5ff;
+  color: #0c6ca1;
   margin-top: 10px;
   @media screen and (max-width: 950px) {
     margin-top: 50px;
@@ -83,10 +87,10 @@ const InputField = styled.input`
   margin: 1rem 3.5rem;
   padding: 0.6rem 1.2rem;
   opacity: 0.8;
-  border: 1px solid #aef5ff;
+  border: 1px solid #0c6ca1;
   border-radius: 1.4rem;
   &:hover {
-    border: 1px #94dbf8 solid;
+    border: 1px #023958 solid;
   }
   @media screen and (max-width: 950px) {
     margin: 0.5rem 2rem;
@@ -110,10 +114,10 @@ const Button = styled.button`
   margin: 0.8rem auto;
   cursor: pointer;
   color: #fff;
-  background-color: #aef5ff;
+  background-color: #0c6ca1;
   &:hover {
     transition: 0.2s all ease-in;
-    background-color: #6db5d1;
+    background-color: #023958;
   }
 `;
 
@@ -125,9 +129,9 @@ const Text = styled.p`
 
 const Link = styled.a`
   cursor: pointer;
-  color: #aef5ff;
+  color: #0c6ca1;
   &:hover {
-    border-bottom: 1px solid #6db5d1;
+    border-bottom: 1px solid #023958;
   }
 `;
 
@@ -147,10 +151,10 @@ const InputFirst = styled.input`
   opacity: 0.8;
   border: none;
   border-radius: 1.4rem;
-  border: 1px solid #aef5ff;
+  border: 1px solid #0c6ca1;
   border-radius: 1.4rem;
   &:hover {
-    border: 1px #94dbf8 solid;
+    border: 1px #023958 solid;
   }
   @media screen and (max-width: 950px) {
     margin: 0.5rem 2rem;
@@ -173,10 +177,10 @@ const InputLast = styled.input`
   padding: 0.6rem 1.2rem;
   opacity: 0.8;
   border-radius: 1.4rem;
-  border: 1px solid #aef5ff;
+  border: 1px solid #0c6ca1;
   border-radius: 1.4rem;
   &:hover {
-    border: 1px #94dbf8 solid;
+    border: 1px #023958 solid;
   }
   @media screen and (max-width: 950px) {
     margin: 0.5rem 2rem;
@@ -194,25 +198,84 @@ const InputLast = styled.input`
 const LogoImg = styled.img``;
 
 const Register = (props) => {
+  const [first, setFirst] = useState("");
+  const [last, setLast] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate()
+
+
+  const success = () => {
+    toast("Signed up successfully!")
+  }
+
+  const incorrect = () => {
+    toast("Unfortunately, failed to sign up!")
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let res;
+    res = await axios.post("http://localhost:4000/signup", {
+      first, last, username, email, password,
+    });
+      if (res.data == "success") {
+        success();
+        setTimeout(()=>{props.closeModal(false);
+        navigate(`/`)}, 2000)
+      }else{
+        incorrect();
+      }
+  }
+
   return (
     <>
       <Modalbackground
-        onClick={() => props.closeModal(false)}
+        // onClick={() => props.closeModal(false)}
         isOpen={props.openSignup}
       >
         <Container>
           <CloseButton onClick={() => props.closeModal(false)}>X</CloseButton>
           <Heading>Sign Up</Heading>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <FormGroup>
-              <InputFirst placeholder="First Name" />
-              <InputLast placeholder="Last Name" />
+              <InputFirst placeholder="First Name"
+              value={first}
+              onChange={(e) => setFirst(e.target.value)}
+               />
+              <InputLast placeholder="Last Name"
+              value={last}
+              onChange={(e) => setLast(e.target.value)}
+              />
             </FormGroup>
-            <InputField placeholder="UserName" />
-            <InputField placeholder="Email" />
-            <InputField placeholder="Password" />
+            <InputField placeholder="UserName"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            />
+            <InputField placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            />
+            <InputField placeholder="Password"
+            value={password}
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            />
+             <Button type="submit">Sign Up</Button>
+             <ToastContainer
+position="top-center"
+autoClose={1000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+background='#EE0022'
+/>
           </Form>
-          <Button>Sign Up</Button>
           <Text>
             Already An Account? <Link>Sign In</Link>
           </Text>

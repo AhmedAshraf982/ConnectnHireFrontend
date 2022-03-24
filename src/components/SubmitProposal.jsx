@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import ButtonSkill from "./ButtonSkill";
+import Navbar from "./Navbar";
+import Header from './Header'
+import axios from 'axios';
+import { Navigate, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Title = styled.h5`
   display: flex;
@@ -21,13 +28,13 @@ const JobDetails = styled.div`
   grid-template-rows: 0.5fr 2fr 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  border: 1px solid #87ceeb;
+  border: 1px solid #0c6ac1;
   border-radius: 5px;
   margin: auto;
   background-color: #fff;
   @media screen and (max-width: 768px) {
-    border-top: 1px solid #87ceeb;
-    border-bottom: 1px solid #87ceeb;
+    border-top: 1px solid #0c6ac1;
+    border-bottom: 1px solid #0c6ac1;
     border-radius: 0px;
     width: 100%;
     transition: 0.8s all ease-in-out;
@@ -35,7 +42,7 @@ const JobDetails = styled.div`
   }
 `;
 const Heading = styled.div`
-  border-bottom: 1px solid #87ceeb;
+  border-bottom: 1px solid #0c6ac1;
   p {
     margin: 1.5rem 0 1rem 4rem;
     font-size: 1.2rem;
@@ -49,14 +56,14 @@ const JobInfo = styled.div`
   grid-template-rows: 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  border-bottom: 1px solid #87ceeb;
+  border-bottom: 1px solid #0c6ac1;
   @media screen and (max-width: 768px) {
     display: flex;
     flex-direction: column;
   }
 `;
 const JobDesc = styled.div`
-  border-right: 1px solid #87ceeb;
+  border-right: 1px solid #0c6ac1;
   @media screen and (max-width: 768px) {
     border: none;
   }
@@ -147,7 +154,7 @@ const SubmitProp = styled.div`
   min-height: 400px;
   height: auto;
   margin: 2rem auto 0 auto;
-  border: 1px solid #87ceeb;
+  border: 1px solid #0c6ac1;
   border-radius: 5px;
   background-color: #fff;
   @media screen and (max-width: 768px) {
@@ -160,7 +167,7 @@ const SubmitProp = styled.div`
   }
 `;
 const HourRate = styled.div`
-  border-bottom: 1px solid #87ceeb;
+  border-bottom: 1px solid #0c6ac1;
   display: flex;
   align-items: center;
   p {
@@ -184,14 +191,14 @@ const InputField = styled.input`
   padding-right: 0.5rem;
   background-color: transparent;
   &:hover {
-    border: 1px solid #87ceeb;
+    border: 1px solid #0c6ac1;
   }
   @media screen and (max-width: 768px) {
     margin: 0.5rem 3rem;
   }
 `;
 const CoverLetter = styled.div`
-  border-bottom: 1px solid #87ceeb;
+  border-bottom: 1px solid #0c6ac1;
   margin: 1rem 0;
   p {
     margin-left: 2rem;
@@ -210,7 +217,7 @@ const InputCover = styled.textarea`
   }
 `;
 const Attachments = styled.div`
-  border-bottom: 1px solid #87ceeb;
+  border-bottom: 1px solid #0c6ac1;
   margin: 1rem 0;
   p {
     margin-left: 2rem;
@@ -231,94 +238,165 @@ const GroupButton = styled.div`
   }
 `;
 const SubmitButton = styled.button`
-  border: 1px solid #aef5ff;
+  border: 1px solid #0c6ca1;
   border-radius: 160px;
-  background-color: #aef5ff;
-  color: #fff;
+  background-color: #0c6ca1;
+  color: #ecf7fc;
   padding: 0.5rem 1rem;
   text-align: center;
   margin: 0rem 2rem 0.5rem 0;
   font-size: 15px;
   width: 160px;
   cursor: pointer;
+  &:hover {
+    border: 1px solid #0c6ca1;
+    background-color: #ecf7fc;
+    color: #0c6ca1;
+  }
 `;
 const CancelButton = styled.button`
-  border: 1px solid #aef5ff;
+  border: 1px solid red;
   border-radius: 160px;
   background-color: #fff;
-  color: #aef5ff;
+  color: red;
   padding: 0.5rem 1rem;
   text-align: center;
   margin: 0rem 2rem 0.5rem 0;
   font-size: 15px;
   width: 160px;
   cursor: pointer;
+  &:hover {
+    border: 1px solid red;
+    background-color: red;
+    color: #fff;
+  }
 `;
 
 const SubmitProposal = () => {
+  const navigate = useNavigate()
+  const {username, id} = useParams();
+  const [mode, setMode] = useState("");
+  const [budget, setBudget] = useState("");
+  const [time, setTime] = useState("");
+  const [cover, setCover] = useState("");
+  let [job, setJob] = useState({})
+
+  const submitProposal = async () => {
+    job["freelancer"] = username
+    job["delivery"] = time
+    job["budget"] = budget
+    job["cover"] = cover
+    let application = job
+    let id = application["_id"]
+    delete application["_id"]
+    application["job_id"] = id
+    console.log(application)
+    console.log(job)
+    let res = await axios.post(`http://localhost:4000/apply`, application);
+    if (res.data == "success") {
+      success();
+      setTimeout(()=>{
+      navigate(`/dashboard/${username}`)}, 2000)
+    }else{
+      incorrect();
+    }
+  }
+  useEffect(async ()=>{
+    let res = await axios.get(`http://localhost:4000/user/${username}`)
+    setMode(res.data.mode)
+    res = await axios.get(`http://localhost:4000/job/${id}`)
+    setJob(res.data)
+  }, [mode, job])
+
+  const success = () => {
+    toast("Signed up successfully!")
+  }
+
+  const incorrect = () => {
+    toast("Unfortunately, failed to sign up!")
+  }
   return (
     <>
-      <Title>Submit A Proposal</Title>
+      <Navbar 
+      username={username}
+      mode={mode}
+      />
+      <Header username={username}/>
       <JobDetails>
         <Heading>
           <p>Job Details</p>
         </Heading>
         <JobInfo>
           <JobDesc>
-            <JobName>Javascript/NodeJS Developer Needed</JobName>
+          <Title>{job.title}</Title>
             <Divi>
-              <Category>Full Stack Development</Category>
-              <Posted>
-                Posted<span>Mar 19,2022</span>
-              </Posted>
+              <Category>{job.category}</Category>
+              <Posted>Posted {job.date}</Posted>
             </Divi>
             <Desc>
-              Looking for a javascript/node developer to build GraphQL resolvers
-              that are utilizing MongoDB as a datastore and Netlify’s AWS lambda
-              functions in a serverless environment. Environment is already set
-              up and running; we just need the resolvers to be built so that
-              queries provide proper data.
+              {job.description}
             </Desc>
           </JobDesc>
           <JobType>
             <Level>
-              <span>Expert</span>
-              <p>Experience Level</p>
+              <span>{job.level}</span>
             </Level>
             <Hour>
-              <p>$35.00-$75.00</p>
-              <p>Hourly Range</p>
+              <p>Budget: {job.budget}</p>
             </Hour>
             <Length>
-              <p>More than 6 months</p>
-              <p>Project Length</p>
+            
             </Length>
           </JobType>
         </JobInfo>
         <SkillAndExpert>
           <p>Skill And Expertise</p>
           <SkillDiv>
-            <ButtonSkill />
-            <ButtonSkill />
-            <ButtonSkill />
+            {
+              job.skills ? 
+              job.skills.map((skill, index)=>{
+                return(
+                  <ButtonSkill skill={skill}/>
+                )
+              })
+              :<></>
+            }
           </SkillDiv>
         </SkillAndExpert>
       </JobDetails>
       <SubmitProp>
         <HourRate>
-          <p>Your Rate:</p>
-          <InputField placeholder="$5.00" />
+          <p>Your Budget:</p>
+          <InputField placeholder="$5.00"
+            value={budget}
+            onChange={(e) => setBudget(e.target.value)}
+          />
         </HourRate>
         <CoverLetter>
           <p>Cover Letter</p>
-          <InputCover required />
+          <InputCover rows="5" cols="100" required 
+            value={cover}
+            onChange={(e) => setCover(e.target.value)}
+          />
         </CoverLetter>
-        <Attachments>
+        {/* <Attachments>
           <p>Attachments</p>
           <InputAttach type="file" />
-        </Attachments>
+        </Attachments> */}
         <GroupButton>
-          <SubmitButton>Submit a Proposal</SubmitButton>
+          <SubmitButton onClick={submitProposal}>Submit Proposal</SubmitButton>
+          <ToastContainer
+position="top-center"
+autoClose={1000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+background='#EE0022'
+/>
           <CancelButton>Cancel</CancelButton>
         </GroupButton>
       </SubmitProp>

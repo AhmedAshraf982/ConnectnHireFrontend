@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
+import { Navigate, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Modalbackground = styled.div`
   width: 100%;
   height: 100%;
-  z-index: 999;
-  transition: 0.3s ease-in-out;
+  z-index: 1100;
+  transition: 0.2s ease-in-out;
   background-color: rgba(0, 0, 0, 0.1);
   position: fixed;
   display: flex;
@@ -14,7 +17,7 @@ const Modalbackground = styled.div`
   align-items: center;
   top: 0;
   left: 0;
-  transition: 0.3s ease-in-out;
+  transition: 0.2s ease-in-out;
   opacity: ${({ isOpen }) => (isOpen ? "100%" : "0")};
   top: ${({ isOpen }) => (isOpen ? "0" : "-100%")};
 `;
@@ -24,7 +27,7 @@ const Container = styled.div`
   width: 30%;
   height: 500px;
   background-color: #fff;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  box-shadow: #28b2ff 0px 5px 15px;
   display: flex;
   border-radius: 50px;
   flex-direction: column;
@@ -48,7 +51,7 @@ const CloseButton = styled.button`
   right: 2rem;
   border: none;
   background-color: transparent;
-  color: #aef5ff;
+  color: #0c6ca1;
   cursor: pointer;
   @media screen and (max-width: 950px) {
     top: 2rem;
@@ -60,7 +63,7 @@ const Heading = styled.h4`
   font-size: 2rem;
   font-weight: bold;
   text-align: center;
-  color: #aef5ff;
+  color: #0c6ca1;
   margin-top: 10px;
   @media screen and (max-width: 950px) {
     margin-top: 100px;
@@ -81,10 +84,10 @@ const InputField = styled.input`
   margin: 1rem 3.5rem;
   padding: 0.6rem 1.2rem;
   opacity: 0.8;
-  border: 1px solid #aef5ff;
+  border: 1px solid #0c6ca1;
   border-radius: 1.4rem;
   &:hover {
-    border: 1px #94dbf8 solid;
+    border: 1px #023958 solid;
   }
   @media screen and (max-width: 950px) {
     margin: 1rem 2rem;
@@ -104,10 +107,10 @@ const Button = styled.button`
   margin: 0.8rem auto;
   cursor: pointer;
   color: #fff;
-  background-color: #aef5ff;
+  background-color: #0c6ca1;
   &:hover {
     transition: 0.2s all ease-in;
-    background-color: #6db5d1;
+    background-color: #023958;
   }
 `;
 
@@ -119,45 +122,52 @@ const Text = styled.p`
 
 const Link = styled.a`
   cursor: pointer;
-  color: #aef5ff;
+  color: #0c6ca1;
   &:hover {
-    border-bottom: 1px solid #6db5d1;
+    border-bottom: 1px solid #023958;
   }
 `;
-
 const Login = (props) => {
-  const [userName, setUserName] = useState("");
+  const navigate = useNavigate()
+  const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  
+  const success = () => {
+    toast("Logged in successfully!")
+  }
+
+  const incorrect = () => {
+    toast("Invalid username or password!")
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     let res;
-    if (userName.trim() && password.trim()) {
-      if (userName.charAt("@")) {
-        res = await axios.post("localhost:5050", {
-          email: userName,
+    if (username.trim() && password.trim()) {
+      if (username.charAt("@")) {
+        res = await axios.post("http://localhost:4000/login", {
+          username: username,
           password,
         });
       } else {
-        res = await axios.post("localhost:5050", {
-          userName,
+        res = await axios.post("http://localhost:4000/login", {
+          username,
           password,
         });
       }
-      if (res === "success") {
-        console.log("Success");
-      } else {
-        console.log("Error");
+      if(res.data == "success"){
+        success();
+        setTimeout(()=>{props.closeModal(false);
+        navigate(`/dashboard/${username}`)}, 2000)
+      }else{
+        incorrect();
       }
-    } else {
-      console.log("No Data");
     }
   };
 
   return (
     <>
       <Modalbackground
-        onClick={() => props.closeModal(false)}
         isOpen={props.openSignin}
       >
         <Container>
@@ -165,8 +175,8 @@ const Login = (props) => {
           <Heading>Sign In</Heading>
           <Form onSubmit={handleSubmit}>
             <InputField
-              placeholder="UserName/Email"
-              value={userName}
+              placeholder="Username/Email"
+              value={username}
               onChange={(e) => setUserName(e.target.value)}
             ></InputField>
             <InputField
@@ -176,6 +186,18 @@ const Login = (props) => {
               onChange={(e) => setPassword(e.target.value)}
             ></InputField>
             <Button type="submit">Sign In</Button>
+            <ToastContainer
+position="top-center"
+autoClose={1000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+background='#EE0022'
+/>
           </Form>
 
           <Text>

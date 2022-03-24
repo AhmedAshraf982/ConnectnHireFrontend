@@ -1,120 +1,52 @@
 import React from "react";
 import styled from "styled-components";
-import Conversation from "./Conversation";
-import Messages from "./Messages";
 
-const Messenger = styled.div`
-  height: calc(100vh-80px);
-  display: flex;
-`;
-
-const ChatMenu = styled.div`
-  flex: 3.5;
-  @media screen and (max-width: 768px) {
-    flex: 2;
-  }
-`;
-
-const ChatBox = styled.div`
-  flex: 6.5;
-  @media screen and (max-width: 768px) {
-    flex: 10;
-  }
-`;
-
-const ChatMenuWrapper = styled.div`
-  padding: 10px;
-  height: 100%;
-`;
-
-const InputField = styled.input`
-  width: 100%;
-  padding: 10px 0;
-  border: none;
-  border-bottom: 1px solid grey;
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const ChatBoxWrapper = styled.div`
-  padding: 10px;
-  height: 100%;
+const Messages = styled.div`
   display: flex;
   flex-direction: column;
-  flex-direction: space-between;
-  position: relative;
+  margin-top: 10px;
+  align-items: ${(props) => (props.own ? "flex-end" : "flex-start")};
 `;
 
-const ChatBoxTop = styled.div`
-  height: 100%;
-  overflow-y: scroll;
-  padding-right: 10px;
-`;
-const ChatBoxBottom = styled.div`
-  margin-top: 5px;
+const MessageTop = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
 `;
 
-const InputArea = styled.textarea`
-  width: 80%;
-  height: 90px;
+const Image = styled.img`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+`;
+
+const MessageText = styled.p`
   padding: 10px;
+  border-radius: 20px;
+  background-color: ${(props) => (props.own ? "rgb(245,241,241)" : "#1877f2")};
+  color: ${(props) => (props.own ? "black" : "white")};
+  max-width: 300px;
 `;
 
-const SendButton = styled.button`
-  width: 70px;
-  height: 40px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: teal;
-  color: white;
+const MessageBottom = styled.div`
+  font-size: 12px;
+  margin-top: 10px;
 `;
 
-const Message = () => {
+const Message = (props) => {
   return (
-    <Messenger>
-      <ChatMenu>
-        <ChatMenuWrapper>
-          <InputField type="text" placeholder="Search" />
-          <Conversation />
-          <Conversation />
-          <Conversation />
-          <Conversation />
-        </ChatMenuWrapper>
-      </ChatMenu>
-      <ChatBox>
-        <ChatBoxWrapper>
-          <ChatBoxTop>
-            <Messages />
-            <Messages own={true} />
-            <Messages />
-            <Messages />
-            <Messages own={true} />
-            <Messages />
-            <Messages />
-            <Messages own={true} />
-            <Messages />
-            <Messages />
-            <Messages own={true} />
-            <Messages />
-            <Messages />
-            <Messages own={true} />
-            <Messages />
-            <Messages />
-            <Messages own={true} />
-            <Messages />
-          </ChatBoxTop>
-          <ChatBoxBottom>
-            <InputArea placeholder="write something..." value={""} />
-            <SendButton>Send</SendButton>
-          </ChatBoxBottom>
-        </ChatBoxWrapper>
-      </ChatBox>
-    </Messenger>
+    <>
+      <Messages own={props.own}>
+        <MessageTop>
+          <Image
+            src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80"
+            alt=""
+          />
+          <MessageText own={props.own}>{props.msg}</MessageText>
+        </MessageTop>
+        <MessageBottom>1 hour ago</MessageBottom>
+      </Messages>
+    </>
   );
 };
 

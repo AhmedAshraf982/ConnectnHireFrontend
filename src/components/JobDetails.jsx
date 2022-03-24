@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import TypesButton from "./TypesButton";
+import { useParams } from 'react-router-dom'
+import axios from "axios";
+import Navbar from "./Navbar";
+import Header from './Header'
+import Footer from './Footer';
+import { Navigate, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const MainContainer = styled.div`
   width: 100%;
@@ -26,7 +34,7 @@ const Container = styled.div`
   margin-right: auto;
   background-color: #fff;
   border-radius: 10px;
-  border: 1px solid #87ceeb;
+  border: 1px solid #0c6ca1;
   opacity: 0.8;
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -45,7 +53,7 @@ const Container = styled.div`
 `;
 
 const LargeContainer = styled.div`
-  border-right: 1px solid #87ceeb;
+  border-right: 1px solid #0c6ca1;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(7, 1fr);
   grid-column-gap: 0px;
@@ -57,7 +65,7 @@ const LargeContainer = styled.div`
 `;
 
 const JobDiv = styled.div`
-  border-bottom: 1px solid #87ceeb;
+  border-bottom: 1px solid #0c6ca1;
 `;
 
 const JobTitle = styled.h5`
@@ -75,7 +83,7 @@ const Description = styled.p`
 `;
 
 const PriceAndLevel = styled.div`
-  border-bottom: 1px solid #87ceeb;
+  border-bottom: 1px solid #0c6ca1;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -100,7 +108,7 @@ const ProjectType = styled.p`
 const SkillsAndExpert = styled.div`
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid #87ceeb;
+  border-bottom: 1px solid #0c6ca1;
   align-items: flex-start;
 `;
 
@@ -153,17 +161,17 @@ const SmallContainer = styled.div`
 `;
 
 const FirstContainer = styled.div`
-  border-bottom: 1px solid #87ceeb;
+  border-bottom: 1px solid #0c6ca1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 150px;
+  height: 200px;
 `;
 
 const SubmitButton = styled.button`
-  border: 1px solid #ecf7fc;
+  border: 1px solid #0c6ca1;
   border-radius: 160px;
-  background-color: #aef5ff;
+  background-color: #0c6ca1;
   color: #ecf7fc;
   padding: 0.5rem 1rem;
   text-align: center;
@@ -172,9 +180,9 @@ const SubmitButton = styled.button`
   width: 160px;
   cursor: pointer;
   &:hover {
-    border: 1px solid #aef5ff;
+    border: 1px solid #0c6ca1;
     background-color: #ecf7fc;
-    color: #aef5ff;
+    color: #0c6ca1;
   }
   @media screen and (max-width: 768px) {
     width: 80%;
@@ -182,10 +190,10 @@ const SubmitButton = styled.button`
 `;
 
 const BookMark = styled.button`
-  border: 1px solid #aef5ff;
+  border: 1px solid red;
   border-radius: 160px;
-  background-color: #ecf7fc;
-  color: #aef5ff;
+  background-color: #fff;
+  color: red;
   padding: 0.5rem 1rem;
   text-align: center;
   margin: 0.5rem auto 1.5rem auto;
@@ -193,17 +201,38 @@ const BookMark = styled.button`
   width: 160px;
   cursor: pointer;
   &:hover {
-    border: 1px solid #ecf7fc;
-    background-color: #aef5ff;
-    color: #ecf7fc;
+    border: 1px solid red;
+    background-color: red;
+    color: #fff;
   }
   @media screen and (max-width: 768px) {
     width: 80%;
   }
 `;
 
+const ChatButton = styled.button`
+border: 1px solid green;
+  border-radius: 160px;
+  background-color: #fff;
+  color: green;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  margin: 0.5rem auto 1.5rem auto;
+  font-size: 15px;
+  width: 160px;
+  cursor: pointer;
+  &:hover {
+    border: 1px solid green;
+    background-color: green;
+    color: #fff;
+  }
+  @media screen and (max-width: 768px) {
+    width: 80%;
+  }
+`
+
 const SecondContainer = styled.div`
-  border-bottom: 1px solid rgba(10, 25, 35, 0.7);
+  border-bottom: 1px solid #0c6ca1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -297,7 +326,7 @@ const InputField = styled.input`
 
 const CopyLink = styled.p`
   margin-left: 2rem;
-  color: #aef5ff;
+  color: #0c6ca1;
   cursor: pointer;
   &:hover {
     text-decoration: underline;
@@ -305,78 +334,169 @@ const CopyLink = styled.p`
 `;
 
 const JobDetails = () => {
-  return (
-    <MainContainer>
-      <Heading>Job Details</Heading>
-      <Container>
-        <LargeContainer>
-          <JobDiv>
-            <JobTitle>Hello World</JobTitle>
-          </JobDiv>
-          <JobDiv>
-            <Description>
-              Hi, looking for MT5 coder to code a simple day low indicator. I
-              will provide more information upon submission of your proposal.
-            </Description>
-          </JobDiv>
-          <PriceAndLevel>
-            <Price>$60</Price>
-            <Level>Intermediate</Level>
-          </PriceAndLevel>
-          <JobDiv>
-            <ProjectType>
-              <span>Project Type: </span>
-              One-time project
-            </ProjectType>
-          </JobDiv>
-          <SkillsAndExpert>
-            <SkillExpert>Skills and Expertise</SkillExpert>
-            <Category>Scripting & Automation Skills</Category>
-            <GroupButton>
-              <TypesButton />
-            </GroupButton>
-          </SkillsAndExpert>
-          <Activity>
-            <ActJob>Activity on this job</ActJob>
-            <Prop>Proposals: Less than 5</Prop>
-            <Interview>Interviewing: 0</Interview>
-            <Invite>Invites sent: 0</Invite>
-            <Unanswered>Unanswered invites: 0</Unanswered>
-          </Activity>
-        </LargeContainer>
-        <SmallContainer>
-          <FirstContainer>
-            <SubmitButton>Submit a Proposal</SubmitButton>
-            <BookMark>Save Job</BookMark>
-          </FirstContainer>
-          <SecondContainer>
-            <About>About the client</About>
-            <Payement>Payment method not verified</Payement>
-            <Country>Jordan</Country>
-            <Con>
-              <Name>Amman</Name>
-              <Posted>10.34pm</Posted>
-            </Con>
-            <JobPosted>1 job posted</JobPosted>
-            <Jp>
-              <HireRate>0% hire rate,</HireRate>
-              <OpenJob>1 open job</OpenJob>
-            </Jp>
-            <Education>Education</Education>
-            <Member>Member since Mar 18, 2022</Member>
-          </SecondContainer>
-          <ThirdContainer>
-            <JobLink>Job link</JobLink>
-            <InputField
-              value="https://www.upwork.com/jobs/~0164284a27b7bfaa27"
-              disabled
-            />
+  const navigate = useNavigate()
+  const {username, id} = useParams();
+  const [mode, setMode] = useState("")
+  const [job, setJob] = useState({})
 
-            <CopyLink>Copy link</CopyLink>
-          </ThirdContainer>
-        </SmallContainer>
-      </Container>
-    </MainContainer>
+  const submitProposal = () => {
+    navigate(`/submitProposal/${username}/${id}`);
+  }
+
+  const success = () => {
+    toast("Proposal has been accepted successfully!")
+  }
+
+  const incorrect = () => {
+    toast("There was an error while accepting the proposal!")
+  }
+
+  const acceptProposal = async () =>{
+    let res = await axios.put(`http://localhost:4000/changeToCurrent/${job._id}`);
+    if(res.data == "success"){
+      success();
+        setTimeout(()=>{
+          navigate(`/dashboard/${username}`)}, 2000)
+    }else{
+      incorrect();
+    } 
+  }
+
+  const Reject = () => {
+
+  }
+
+  const Chat = () => {
+    navigate(`/messages/${job.client}/${job.freelancer}`);
+  }
+
+  useEffect(async ()=>{
+    let res = await axios.get(`http://localhost:4000/user/${username}`)
+    setMode(res.data.mode)
+    if(mode == "selling"){
+      res = await axios.get(`http://localhost:4000/job/${id}`)
+      setJob(res.data)
+    }else if(mode == "buying"){
+      res = await axios.get(`http://localhost:4000/getApplication/${id}`)
+      setJob(res.data)
+    }
+    
+  }, [job, mode])
+  return (
+    <>
+    <Navbar username={username}
+    mode={mode}
+     />
+     <Header username={username}/>
+   <MainContainer>
+    
+     <Heading>{mode == "selling" ? "Job Details" : "Application Details"}</Heading>
+     <JobTitle>{mode == "selling" ? "Client: " + job.client : "Freelancer: " + job.freelancer}</JobTitle>
+     <Container>
+       <LargeContainer>
+         <JobDiv>
+           <JobTitle>Title: {job.title}</JobTitle>
+         </JobDiv>
+         <JobDiv>
+           <Description>
+             Description: <br /><br/>
+             {job.description}
+           </Description>
+           {
+             mode == "buying" ? 
+             <Description>
+             Cover Letter: <br /><br/>
+             {job.cover}
+           </Description> : <></>
+           }
+         </JobDiv>
+         <PriceAndLevel>
+           <Price>Budget: {job.budget}</Price>
+           <Level>Level: {job.level}</Level>
+         </PriceAndLevel>
+         <JobDiv>
+           <ProjectType>
+             <span>Project Type: </span>
+             {job.type}
+           </ProjectType>
+         </JobDiv>
+         <SkillsAndExpert>
+           <SkillExpert>Skills and Expertise</SkillExpert>
+           {
+             job.skills ? 
+             job.skills.map((skill, index)=>{
+               return(
+                 <Category>{skill}</Category>
+               )
+             }):
+             <Category>N/A</Category>
+           }
+           <div style={{marginTop: 20}}></div>
+         </SkillsAndExpert>
+         <Activity>
+           <ActJob>Activity on this job</ActJob>
+           <Prop>Proposals: Less than 5</Prop>
+           <Interview>Interviewing: 0</Interview>
+           <Invite>Invites sent: 0</Invite>
+           <Unanswered>Unanswered invites: 0</Unanswered>
+         </Activity>
+       </LargeContainer>
+       <SmallContainer>
+         <FirstContainer>
+           {
+             mode == "selling" ?
+             <SubmitButton onClick={submitProposal}>{"Submit Proposal"}</SubmitButton> :
+             <SubmitButton onClick={acceptProposal}>{"Accept Proposal"}</SubmitButton>
+           }
+           {
+             mode == "buying" ? 
+             <>
+             <BookMark onClick={Reject}>Reject</BookMark>
+            <ChatButton onClick={Chat}>Chat</ChatButton></> : <></>
+           }
+           <ToastContainer
+position="top-center"
+autoClose={1000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+background='#EE0022'
+/>
+         </FirstContainer>
+         <SecondContainer>
+           <About>About the client</About>
+           <Payement>Payment method not verified</Payement>
+           <Country>Jordan</Country>
+           <Con>
+             <Name>Amman</Name>
+             <Posted>10.34pm</Posted>
+           </Con>
+           <JobPosted>1 job posted</JobPosted>
+           <Jp>
+             <HireRate>0% hire rate,</HireRate>
+             <OpenJob>1 open job</OpenJob>
+           </Jp>
+           <Education>Education</Education>
+           <Member>Member since Mar 18, 2022</Member>
+         </SecondContainer>
+         <ThirdContainer>
+           <JobLink>Job link</JobLink>
+           <InputField
+             value="https://www.upwork.com/jobs/~0164284a27b7bfaa27"
+             disabled
+           />
+
+           <CopyLink>Copy link</CopyLink>
+         </ThirdContainer>
+       </SmallContainer>
+     </Container>
+   </MainContainer>
+   <Footer />
+   </>
   );
 };
 

@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link as LinkR } from "react-router-dom";
+import { Link as LinkR, useNavigate } from "react-router-dom";
 import { Link as LinkS } from "react-scroll";
 import { FaBars } from "react-icons/fa";
 import { AiFillSetting } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
 import MessageDropDown from "./MessageDropDown";
+import NotificationDropDown from './NotificationDropDown'
+import axios from 'axios';
+import logo from './logo.png'
 
 const Nav = styled.nav`
   height: 80px;
@@ -17,7 +20,7 @@ const Nav = styled.nav`
   position: sticky;
   top: 0;
   z-index: 10;
-  box-shadow: 0px 15px 10px -15px #aef5ff;
+  box-shadow: 0px 15px 10px -15px #0c6ca1;
   @media screen and (max-width: 960px) {
     height: 60px;
     transition: 0.8s all ease;
@@ -65,6 +68,7 @@ const MobileIcon = styled.div`
 const NavMenu = styled.ul`
   display: flex;
   align-items: center;
+  margin-top: 12px;
   margin-right: -22px;
   list-style: none;
   @media screen and (max-width: 768px) {
@@ -74,20 +78,27 @@ const NavMenu = styled.ul`
 
 const NavItem = styled.li`
   height: 80px;
+  text-decoration: none !important;
 `;
 
 const NavLinks = styled(LinkS)`
-  color: #94dbf8;
+  color: #0c6ca1;
   display: flex;
   align-items: center;
   padding: 0 1rem;
   height: 100%;
   font-size: 1.1rem;
-  text-decoration: none;
+  text-decoration: none !important;
   cursor: pointer;
-  &:active {
-    border-bottom: 3px solid #94dbf8;
+  &:hover {
+    color: #023958;
+    transform: scaleX(1.5);
+    transform: scaleY(1.2);
+    transition: 0.1s all ease-in-out;
   }
+  /* &:active {
+    border-bottom: 1px solid #023958;
+  } */
 `;
 
 const NavButton = styled.div`
@@ -103,7 +114,7 @@ const Button = styled.button`
   outline: none;
   background-color: #fff;
   font-size: 16px;
-  color: #aef5ff;
+  color: #0c6ca1;
   margin-left: 1rem;
   padding: 10px 22px;
   border-radius: 50px;
@@ -113,7 +124,7 @@ const Button = styled.button`
   text-decoration: none;
   &:hover {
     transition: all 0.2s ease-in-out;
-    background-color: #aef5ff;
+    background-color: #0c6ca1;
     color: #fff;
   }
 `;
@@ -133,7 +144,7 @@ const DropDown = styled.div`
   right: 10rem;
   background: #fff;
   border-radius: 5px;
-  border: 2px solid #aef5ff;
+  border: 2px solid #0c6ca1;
   width: auto;
   min-width: 100px;
 `;
@@ -142,7 +153,8 @@ const UserName = styled.h3`
   text-align: center;
   font-size: 1rem;
   margin: 1rem 0 0.5rem 0;
-  border-bottom: 1px solid black;
+  border-bottom: 2px solid #023958;
+  color: #0c6ca1;
 `;
 
 const ListMenu = styled.ul`
@@ -157,6 +169,7 @@ const List = styled.li`
   justify-content: flex-start;
   text-decoration: none;
   font-size: 1.1rem;
+  color: #0c6ca1;
 `;
 
 const SettingLogo = styled.div`
@@ -168,33 +181,79 @@ const LogOutLogo = styled.div`
   font-size: 1.2rem;
   cursor: pointer;
 `;
-
 const Navbar = (props) => {
+  const navigate = useNavigate()
   const [dropshow, setDropShow] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+
+  const changeMode = async () => {
+    let res = await axios.put(`http://localhost:4000/changeMode/${props.username}`)
+    if(res.data == "success"){
+      navigate(`/dashboard/${props.username}`)
+    }
+  }
+
+  const FindJob = async () =>{
+    console.log("find job")
+    if(props.mode == "buying"){
+      let res = await axios.put(`http://localhost:4000/changeMode/${props.username}`)
+      if(res.data == "success"){
+        navigate(`/dashboard/${props.username}`)
+      }
+    }
+  }
+
+  const PostJob = () => {
+    navigate(`/postJob/${props.username}`)
+  }
+
+  const settings = () => {
+    navigate(`/settings/${props.username}`)
+  }
+  const logout = () => {
+    setDropShow(!dropshow);
+    navigate(`/`)
+  }
   return (
     <>
-      <Nav onClick={() => setShowMessage(false)}>
+      <Nav onClick={() => {setShowMessage(false)
+      setShowNotifications(false)  
+    }
+    }>
         <NavbarContainer>
-          <Logo src="./logo.png" alt="logo" />
+          <Logo src={logo} alt="logo" />
           <MobileIcon onClick={props.toggle}>
             <FaBars color="#aef5ff" />
           </MobileIcon>
           <NavMenu>
             <NavItem>
-              <NavLinks>Find Jon</NavLinks>
+              <NavLinks onClick={FindJob} >Find Job</NavLinks>
             </NavItem>
             <NavItem>
-              <NavLinks>Post Job</NavLinks>
+              <NavLinks onClick={PostJob} >Post Job</NavLinks>
             </NavItem>
             <NavItem>
-              <NavLinks onClick={() => setShowMessage(!showMessage)}>
+              <NavLinks onClick={() => {setShowMessage(!showMessage)
+              setShowNotifications(showNotifications)
+              }}>
                 Message
+              </NavLinks>
+            </NavItem>
+            <NavItem>
+              <NavLinks onClick={() => {setShowNotifications(!showNotifications)
+              setShowMessage(showMessage)
+              }}>
+                Notifications
               </NavLinks>
             </NavItem>
           </NavMenu>
           <NavButton>
-            <Button
+            {
+              !props.username ?
+              
+              <>
+              <Button
               onClick={() => {
                 props.closeLoginModal(true);
               }}
@@ -208,33 +267,52 @@ const Navbar = (props) => {
             >
               Sign Up
             </Button>
-            <ImageIcon
+            </>
+              
+            :
+            <Button
+              onClick={() => {
+                changeMode();
+              }}
+            >
+              {props.mode == "buying" ? "Turn to a freelancer" : "Turn to a client"}
+            </Button>
+            }
+            
+            {
+              props.username &&  <ImageIcon
               src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80"
-              onClick={() => setDropShow(!dropshow)}
+              onClick={() => {
+                setDropShow(!dropshow);
+                setShowNotifications(false);
+                setShowMessage(false);
+              }}
             />
+            }
           </NavButton>
         </NavbarContainer>
         {dropshow && (
           <DropDown>
-            <UserName>Ahmed</UserName>
-            <ListMenu>
-              <List>
-                <SettingLogo>
-                  <AiFillSetting />
-                </SettingLogo>
-                Settings
-              </List>
-              <List>
-                <LogOutLogo>
-                  <BiLogOut />
-                </LogOutLogo>
-                LogOut
-              </List>
-            </ListMenu>
-          </DropDown>
+          <UserName>{props.firstname}</UserName>
+          <ListMenu>
+            <List  onClick={settings}>
+              <SettingLogo>
+                <AiFillSetting />
+              </SettingLogo>
+              Settings
+            </List>
+            <List  onClick={logout}>
+              <LogOutLogo>
+                <BiLogOut />
+              </LogOutLogo>
+              LogOut
+            </List>
+          </ListMenu>
+        </DropDown>
         )}
       </Nav>
-      <MessageDropDown showMessage={showMessage} />
+      <MessageDropDown showMessage={showMessage} username={props.username} />
+      <NotificationDropDown showNotifications={showNotifications} username={props.username} />
     </>
   );
 };

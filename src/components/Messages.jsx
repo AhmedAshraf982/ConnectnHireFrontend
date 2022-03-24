@@ -1,51 +1,140 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import Conversation from "./Conversation";
+import Message from "./Message";
+import axios from 'axios';
+import { useNavigate, useParams } from "react-router-dom";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 
-const Message = styled.div`
+
+const Messenger = styled.div`
+  height: calc(100vh-80px);
+  display: flex;
+`;
+
+const ChatMenu = styled.div`
+  flex: 3.5;
+  @media screen and (max-width: 768px) {
+    flex: 2;
+  }
+`;
+
+const ChatBox = styled.div`
+  flex: 6.5;
+  @media screen and (max-width: 768px) {
+    flex: 10;
+  }
+`;
+
+const ChatMenuWrapper = styled.div`
+  padding: 10px;
+  height: 100%;
+`;
+
+const InputField = styled.input`
+  width: 100%;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid grey;
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const ChatBoxWrapper = styled.div`
+  padding: 10px;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 10px;
-  align-items: ${(props) => (props.own ? "flex-end" : "flex-start")};
+  flex-direction: space-between;
+  position: relative;
 `;
 
-const MessageTop = styled.div`
+const ChatBoxTop = styled.div`
+  height: 100%;
+  overflow-y: scroll;
+  padding-right: 10px;
+`;
+const ChatBoxBottom = styled.div`
+  margin-top: 5px;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
-const Image = styled.img`
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 10px;
-`;
-
-const MessageText = styled.p`
+const InputArea = styled.textarea`
+  width: 80%;
+  height: 90px;
   padding: 10px;
-  border-radius: 20px;
-  background-color: ${(props) => (props.own ? "rgb(245,241,241)" : "#1877f2")};
-  color: ${(props) => (props.own ? "black" : "white")};
-  max-width: 300px;
 `;
 
-const MessageBottom = styled.div`
-  font-size: 12px;
-  margin-top: 10px;
+const SendButton = styled.button`
+  width: 70px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: teal;
+  color: white;
 `;
 
-const Messages = (props) => {
+const Messages = () => {
+  const {username, other} = useParams();
+  const [user, setUser] = useState({});
+  const [messages, setMessages] = useState([]);
+  const [msg, setMsg] = useState("")
+  const navigate = useNavigate();
+  useEffect(async ()=>{
+    let res = await axios.get(`http://localhost:4000/messages/${username}/${other}`)
+    setMessages(res.data)
+
+    res = await axios.get(`http://localhost:4000/user/${username}`)
+    setUser(res.data)
+  }, [user, messages])
+
+  const sendMsg = async() => {
+    let obj = {
+      sender: username,
+      receiver: other,
+      read: false,
+      msg: msg
+    }
+    let res = await axios.post("http://localhost:4000/message", obj)
+    setMsg("")
+  }
+
   return (
     <>
-      <Message own={props.own}>
-        <MessageTop>
-          <Image
-            src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80"
-            alt=""
-          />
-          <MessageText own={props.own}>Hello this is a message</MessageText>
-        </MessageTop>
-        <MessageBottom>1 hour ago</MessageBottom>
-      </Message>
+    <Navbar username={username}
+    mode = {user.mode}
+    firstname = {user.first}
+    />
+    <Messenger>
+      <ChatBox>
+        <ChatBoxWrapper>
+          <ChatBoxTop>
+            {
+              messages.length ?
+              messages.map((msg, index)=>{
+                return(
+                  <Message own={msg.sender == username ? true : false} msg={msg.msg}
+                  />
+                );
+              }) :
+              <p>No new messages to show!</p>
+            }
+          </ChatBoxTop>
+          <ChatBoxBottom>
+            <InputArea placeholder="Enter message..." value={msg}
+            onChange={(e) => setMsg(e.target.value)}
+            />
+            <SendButton onClick={sendMsg}>Send</SendButton>
+          </ChatBoxBottom>
+        </ChatBoxWrapper>
+      </ChatBox>
+    </Messenger>
+    <Footer />
     </>
   );
 };

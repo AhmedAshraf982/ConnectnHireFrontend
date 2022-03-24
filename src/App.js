@@ -1,59 +1,31 @@
-import Navbar from "./components/Navbar";
-import { BrowserRouter as Router } from "react-router-dom";
-import Card from "./components/Card";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import { useState } from "react";
-import Footer from "./components/Footer";
-import JobDetails from "./components/JobDetails";
-import SubmitProposal from "./components/SubmitProposal";
-import Header from "./components/Header";
-import UserDashBoard from "./components/UserDashBoard";
-import Message from "./components/Message";
-import NavSideBar from "./components/NavSideBar";
-import MessageDropDown from "./components/MessageDropDown";
-import PostaJob from "./components/PostaJob";
+import React from 'react';
+import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom';
+import Home from './components/Home';
+import JobDetails from './components/JobDetails';
+import SubmitProposal from './components/SubmitProposal';
+import PostaJob from './components/PostaJob';
+import Messages from './components/Messages';
+import Settings from './components/Settings';
+import JobSubmitPage from './components/JobSubmitPage';
+
 
 function App() {
-  const [openSignin, setOpenSignin] = useState(false);
-  const [openSignup, setOpenSignup] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggle = () => {
-    setIsOpen(!isOpen);
-  };
-  return (
-    <>
-      <Router>
-        <Navbar
-          closeLoginModal={setOpenSignin}
-          closeSignupModal={setOpenSignup}
-          toggle={toggle}
-        />
-
-        <NavSideBar
-          isOpen={isOpen}
-          toggle={toggle}
-          closeLoginModal={setOpenSignin}
-          closeSignupModal={setOpenSignup}
-        />
-        <PostaJob />
-        {/* <MessageDropDown /> */}
-        {/* <JobDetails /> */}
-        {/* <Header />
-        <UserDashBoard /> */}
-        {/* <Card /> */}
-        {/* <JobDetails />
-          <SubmitProposal />
-          <UserDashBoard />
-          <Message /> */}
-        <Footer />
-      </Router>
-
-      <Login closeModal={setOpenSignin} openSignin={openSignin} />
-      <Register closeModal={setOpenSignup} openSignup={openSignup} />
-    </>
-  );
+    return (
+      <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/dashboard/:username" element={<Home />} />
+            <Route path="/job/:username/:id" element={<JobDetails />} />
+            <Route path="/submitProposal/:username/:id" element={<SubmitProposal />} />
+            <Route path="/application/:username/:id" element={<JobDetails />} />
+            <Route path="/postJob/:username" element={<PostaJob />} />
+            <Route path="/messages/:username/:other" element={<Messages />} />
+            <Route path="/settings/:username" element={<Settings />} />
+            <Route path="/submitJob/:username/:id" element={<JobSubmitPage />} />
+            <Route path="/viewSubmission/:username/:id" element={<JobSubmitPage />} />
+          </Routes>
+      </BrowserRouter>
+    );
 }
 
 export default App;

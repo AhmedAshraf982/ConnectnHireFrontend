@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 import MessageNotify from "./MessageNotify";
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+
 
 
 const Container = styled.div`
@@ -12,7 +12,7 @@ const Container = styled.div`
   border-radius: 5px;
   min-height: 0px;
   position: absolute;
-  left: 520px;
+  left: 680px;
   z-index: 999;
   top: 50px;
   display: flex;
@@ -26,8 +26,8 @@ const Container = styled.div`
     z-index: 1100;
     left: 200px;
     width: 50%;
-    top: 272px;
-    top: ${({ isOpen }) => (isOpen ? "300" : "-100%")};
+    top: 330px;
+    top: ${({ isOpen }) => (isOpen ? "310" : "-100%")};
   }
 `;
 
@@ -41,34 +41,32 @@ const Container = styled.div`
 //   background-color: black;
 // `;
 
-const MessageDropDown = (props) => {
-  const [chats, setChats] = useState([])
-  const navigate = useNavigate();
+const NotificationDropDown = (props) => {
+  const [user, setUser] = useState({})
+  const [notifications, setNotifications] = useState([])
   useEffect(async ()=>{
-    let res = await axios.get(`http://localhost:4000/chats/${props.username}`)
-    setChats(res.data)
-  })
-
-  
+    let res = await axios.get(`http://localhost:4000/user/${props.username}`)
+    setUser(res.data)
+    // setNotifications(user.notifications.reverse())
+  }, [user])
   return (
     <>
-      <Container isOpen={props.showMessage}>
+      <Container isOpen={props.showNotifications}>
         {/* <Pin>hi</Pin> */}
         {
-          props.username == undefined ? "Login to get messages!" : 
-          chats.length ? 
-          chats.map((chat, index)=>{
-            return(
-              <MessageNotify chat={chat}
-              username = {props.username}
-              />
-            );
+          user.username != undefined ? 
+          notifications.map((noti, index)=>{
+            //   if(index < 10){
+                return(
+                    <MessageNotify chat={noti} />
+                  );
+            //   }
           })
-          : "No new messages to show!"
+          : "Login to get notifications!"
         }
       </Container>
     </>
   );
 };
 
-export default MessageDropDown;
+export default NotificationDropDown;

@@ -1,5 +1,7 @@
 import React from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
 
 const MessageBorder = styled.div`
   width: 100%;
@@ -39,17 +41,30 @@ const MessageName = styled.p`
   text-align: left;
 `;
 
-const MessageNotify = () => {
+
+const MessageNotify = (props) => {
+  const navigate = useNavigate()
+  const getMsg = (msg) => {
+    if(msg.length > 25){
+      msg = msg.slice(0, 25)
+      msg += "...";
+    }
+    return msg;
+  }
   return (
-    <MessageBorder>
+    <MessageBorder
+    onClick={() => {
+      console.log("here")
+      navigate(`/messages/${props.username}/${props.chat.label}`)
+    }}>
       <Image
         src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80"
         alt="ClientImage"
       />
       <MinContainer>
-        <ClientName>Ahmed</ClientName>
+        <ClientName>{props.chat.label}</ClientName>
         <MessageName>
-          {"HellloWodjbvdhvdvdjbvjdfgvjdbvjhdgbvjdf".slice(0, 20)}
+          {props.chat.msg ? getMsg(props.chat.msg) : "No new message to show"}
         </MessageName>
       </MinContainer>
     </MessageBorder>

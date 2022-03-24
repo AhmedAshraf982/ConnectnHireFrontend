@@ -1,12 +1,12 @@
-import React from "react";
+import React,{useState, useEffect} from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
   width: 60%;
   height: 200px;
   margin: 2rem 8.5rem 2rem;
-  border: 1px solid rgba(195, 10, 20, 0.2);
-  background-color: whitesmoke;
+  border: 1px solid #0c6ac1;
+  background-color: #fff;
   border-radius: 5px;
   @media screen and (max-width: 768px) {
     display: none;
@@ -26,13 +26,26 @@ const UserName = styled.p`
   margin: 0 2rem 0 2rem;
 `;
 
-const Header = () => {
+const Header = (props) => {
+  const [date, setDate] = useState(new window.Date());
+  useEffect(() => {
+    setDate(new window.Date());
+  }, [new window.Date()]);
   return (
     <>
       <Container>
-        <Date>Saturday, March 19th</Date>
-        <Timing>Good Evening,</Timing>
-        <UserName>Ahmed A.</UserName>
+        <Date>
+          {date.toLocaleString("default", { month: "long" })} {date.getDate()},{" "}
+          {date.getFullYear()}
+        </Date>
+        <Timing>
+          {date.getHours() >= 0 && date.getHours() < 12
+            ? "Good Morning"
+            : date.getHours() >= 12 && date.getHours() <= 17
+            ? "Good Afternoon!"
+            : "Good Evening"}
+        </Timing>
+        <UserName style={{marginTop: 30, fontWeight:"bold"}}>{props.username}</UserName>
       </Container>
     </>
   );

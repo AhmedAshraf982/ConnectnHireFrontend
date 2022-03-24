@@ -1,5 +1,13 @@
 import styled from "styled-components";
-import React from "react";
+import React, { useState } from "react";
+import axios from 'axios';
+import { Navigate, useNavigate, useParams } from "react-router-dom";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import Header from "./Header";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Container = styled.div`
   width: 80%;
@@ -9,7 +17,29 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin: 1rem 5rem 0 auto;
-  border: 2px solid #aef5f5;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    transition: 0.8s all ease-in-out;
+  }
+`;
+
+const Heading = styled.h5`
+  text-align: left;
+  font-size: 1.1rem;
+  /* background-color: #0c6ac1; */
+  color: black;
+  padding: 1rem;
+  @media screen and (max-width: 768px) {
+    text-align: center;
+    transition: 0.3s all ease-in-out;
+  }
+`;
+
+const MinContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border: 1px solid #0c6ac1;
   border-radius: 5px;
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -17,20 +47,6 @@ const Container = styled.div`
     border-radius: 0;
     transition: 0.8s all ease-in-out;
   }
-`;
-
-const Heading = styled.h5`
-  text-align: center;
-  font-size: 1.1rem;
-  background-color: #aef5f5;
-  color: black;
-  padding: 1rem;
-`;
-
-const MinContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
 `;
 
 const FormGroup = styled.div`
@@ -53,9 +69,9 @@ const InputField = styled.input`
   opacity: 0.9;
   font-weight: lighter;
   border-radius: 5px;
-  border: 2px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid #0c6ac1;
   &:hover {
-    border: 2px solid #aef5f5;
+    border: 1px solid #023958;
   }
 `;
 
@@ -64,6 +80,7 @@ const FormGroup1 = styled.div`
   flex-direction: row;
   padding: 1rem;
   justify-content: space-between;
+  flex-wrap: wrap;
   @media screen and (max-width: 900px) {
     flex-direction: column;
     transition: 0.8s all ease-in-out;
@@ -82,9 +99,9 @@ const InputText = styled.textarea`
   font-weight: lighter;
   border-radius: 5px;
   height: 100px;
-  border: 2px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid #0c6ac1;
   &:hover {
-    border: 2px solid #aef5f5;
+    border: 1px solid #023958;
   }
 `;
 
@@ -98,14 +115,14 @@ const ButtonGroup = styled.div`
 const PostButton = styled.button`
   border: 1px solid transparent;
   padding: 1rem 2rem;
-  background-color: #aef5f5;
+  background-color: #0c6ac1;
   color: #fff;
   cursor: pointer;
   margin-right: 1rem;
   &:hover {
-    color: #aef5f5;
+    color: #0c6ac1;
     background-color: #fff;
-    border: 1px solid #aef5f5;
+    border: 1px solid #0c6ac1;
   }
 `;
 
@@ -124,49 +141,136 @@ const CancelButton = styled.button`
 `;
 
 const PostaJob = () => {
+  const {username} = useParams();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("")
+  const [time, setTime] = useState("")
+  const [level, setLevel] = useState("")
+  const [budget, setBudget] = useState("")
+  const [skills, setSkills] = useState("")
+  const navigate = useNavigate();
+  console.log(username)
+
+  const cancel = () => {
+    navigate(`/dashboard/${username}`)
+  }
+  const postJob = async () => {
+    let skills_ = skills.split(",")
+    let obj = {
+      client: username,
+      title,
+      description,
+      time,
+      level,
+      budget,
+      skills: skills_
+    }
+    let res =  await axios.post("http://localhost:4000/post", obj);
+    console.log(res)
+    if(res.data == "success"){
+      success();
+        setTimeout(()=>{
+          navigate(`/dashboard/${username}`)}, 2000)
+    }else{
+      incorrect();
+    }
+  }
+  const success = () => {
+    toast("Job has been posted successfully!")
+  }
+
+  const incorrect = () => {
+    toast("There was an error while posting the job!")
+  }
   return (
     <>
+    <Navbar
+    username = {username}
+    mode = {"buying"}
+    />
+    <Header 
+    username = {username}
+    mode = {"buying"}
+    />
       <Container>
-        <Heading>POST A JOB</Heading>
+        <Heading>Post a Job</Heading>
         <MinContainer>
           <FormGroup>
             <Title>Title Of Job</Title>
-            <InputField type="text" required placeholder="e.g Python Script" />
+            <InputField type="text" required
+             placeholder="e.g Python Script" 
+             onChange={(e) => setTitle(e.target.value)}
+             value={title}/>
           </FormGroup>
           <FormGroup1>
-            <FG>
+            {/* <FG>
               <Title>Price Type</Title>
               <InputField
                 type="text"
                 required
+                value={budget}
+                onChange={(e) => setBudget(e.target.value)}
                 placeholder="e.g Fixed Partial"
+              />
+            </FG> */}
+            <FG>
+              <Title>Level</Title>
+              <InputField type="text" 
+              onChange={(e) => setLevel(e.target.value)}
+              required placeholder="e.g Expert"
+              value={level}
               />
             </FG>
             <FG>
-              <Title>Level</Title>
-              <InputField type="text" required placeholder="e.g Expert" />
-            </FG>
-            <FG>
               <Title>Budget</Title>
-              <InputField type="text" required placeholder="e.g $5.00" />
+              <InputField type="text"
+              value={budget}
+              onChange={(e) => setBudget(e.target.value)}
+               required placeholder="e.g $5.00" />
             </FG>
           </FormGroup1>
           <FormGroup>
             <Title>Description</Title>
-            <InputText required />
+            <InputText required 
+            onChange={(e) => setDescription(e.target.value)}
+            value={description}
+            />
           </FormGroup>
           <FormGroup>
-            <Title>Start Date</Title>
-            <InputField type="datetime-local" required />
-            <Title>End Date</Title>
-            <InputField type="datetime-local" required />
+            <Title>Skills (comma separated)</Title>
+            <InputText required 
+            onChange={(e) => setSkills(e.target.value)}
+            value={skills}
+            />
           </FormGroup>
-          <ButtonGroup>
-            <PostButton>POST</PostButton>
-            <CancelButton>Cancel</CancelButton>
+          <FormGroup>
+            <Title>Time (days)</Title>
+            <InputField type="text" required 
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            />
+            {/* <Title>End Date</Title>
+            <InputField type="datetime-local" required /> */}
+          </FormGroup>
+          <ButtonGroup >
+            <PostButton onClick={postJob}>Post</PostButton>
+            <ToastContainer
+position="top-center"
+autoClose={1000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+background='#EE0022'
+/>
+            <CancelButton onClick={cancel}>Cancel</CancelButton>
           </ButtonGroup>
         </MinContainer>
       </Container>
+      <Footer />
     </>
   );
 };
