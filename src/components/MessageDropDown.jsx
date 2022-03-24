@@ -45,7 +45,7 @@ const MessageDropDown = (props) => {
   const [chats, setChats] = useState([])
   const navigate = useNavigate();
   useEffect(async ()=>{
-    let res = await axios.get(`http://localhost:4000/chats/${props.username}`)
+    let res = await axios.get(`https://young-cliffs-72209.herokuapp.com/chats/${props.username}`)
     setChats(res.data)
   })
 

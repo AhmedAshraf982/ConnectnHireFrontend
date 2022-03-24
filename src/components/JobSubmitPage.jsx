@@ -202,7 +202,7 @@ const JobSubmitPage = (props) => {
         obj["delivery_description"] = desc;
         obj["file"] = file;
         obj["status"] = "delivered"
-        let res = await axios.post(`http://localhost:4000/submission`, obj);
+        let res = await axios.post(`https://young-cliffs-72209.herokuapp.com/submission`, obj);
         if(res.data == "success"){
           success();
           setTimeout(()=>{props.closeModal(false);
@@ -212,7 +212,7 @@ const JobSubmitPage = (props) => {
         }
       }else{
         console.log(id)
-        let res = await axios.put(`http://localhost:4000/changeToCompleted/${id}`)
+        let res = await axios.put(`https://young-cliffs-72209.herokuapp.com/changeToCompleted/${id}`)
         console.log(res.data)
         console.log("delivery accepted")
         navigate(`/dashboard/${user.username}`)

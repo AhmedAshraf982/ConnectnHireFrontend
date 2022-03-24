@@ -292,7 +292,7 @@ const SubmitProposal = () => {
     application["job_id"] = id
     console.log(application)
     console.log(job)
-    let res = await axios.post(`http://localhost:4000/apply`, application);
+    let res = await axios.post(`https://young-cliffs-72209.herokuapp.com/apply`, application);
     if (res.data == "success") {
       success();
       setTimeout(()=>{
@@ -302,9 +302,9 @@ const SubmitProposal = () => {
     }
   }
   useEffect(async ()=>{
-    let res = await axios.get(`http://localhost:4000/user/${username}`)
+    let res = await axios.get(`https://young-cliffs-72209.herokuapp.com/user/${username}`)
     setMode(res.data.mode)
-    res = await axios.get(`http://localhost:4000/job/${id}`)
+    res = await axios.get(`https://young-cliffs-72209.herokuapp.com/job/${id}`)
     setJob(res.data)
   }, [mode, job])
 

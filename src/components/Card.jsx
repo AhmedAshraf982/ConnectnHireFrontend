@@ -46,33 +46,33 @@ const Card = (props) => {
 
   useEffect(async ()=>{
     if(props.mode == "selling"){
-      let res = await axios.get(`http://localhost:4000/jobs/${props.username}`)
+      let res = await axios.get(`https://young-cliffs-72209.herokuapp.com/jobs/${props.username}`)
       setJobs(res.data)
 
-      res = await axios.get(`http://localhost:4000/pending/${props.username}`)
+      res = await axios.get(`https://young-cliffs-72209.herokuapp.com/pending/${props.username}`)
       setApplied(res.data)
 
-      res = await axios.get(`http://localhost:4000/current/${props.username}`)
+      res = await axios.get(`https://young-cliffs-72209.herokuapp.com/current/${props.username}`)
       setCurrent(res.data)
 
-      res = await axios.get(`http://localhost:4000/delivered/${props.username}`)
+      res = await axios.get(`https://young-cliffs-72209.herokuapp.com/delivered/${props.username}`)
       setDelivered(res.data)
 
-      res = await axios.get(`http://localhost:4000/completed/${props.username}`)
+      res = await axios.get(`https://young-cliffs-72209.herokuapp.com/completed/${props.username}`)
       setCompleted(res.data)
 
     }else if(props.mode == "buying"){
 
-      let res = await axios.get(`http://localhost:4000/applications/${props.username}`)
+      let res = await axios.get(`https://young-cliffs-72209.herokuapp.com/applications/${props.username}`)
       setJobs(res.data)
 
-      res = await axios.get(`http://localhost:4000/clientCurrent/${props.username}`)
+      res = await axios.get(`https://young-cliffs-72209.herokuapp.com/clientCurrent/${props.username}`)
       setCurrent(res.data)
 
-      res = await axios.get(`http://localhost:4000/clientDelivered/${props.username}`)
+      res = await axios.get(`https://young-cliffs-72209.herokuapp.com/clientDelivered/${props.username}`)
       setDelivered(res.data)
 
-      res = await axios.get(`http://localhost:4000/clientCompleted/${props.username}`)
+      res = await axios.get(`https://young-cliffs-72209.herokuapp.com/clientCompleted/${props.username}`)
       setCompleted(res.data)
     }
   }, [jobs, applied, current, delivered, completed])

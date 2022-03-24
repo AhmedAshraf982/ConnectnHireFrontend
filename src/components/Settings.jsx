@@ -11,7 +11,7 @@ const Settings = () => {
     const [user, setUser] = useState({})
 
     useEffect(async ()=>{
-        let res = await axios.get(`http://localhost:4000/user/${username}`)
+        let res = await axios.get(`https://young-cliffs-72209.herokuapp.com/user/${username}`)
         setUser(res.data)
     }, [user])
     return(

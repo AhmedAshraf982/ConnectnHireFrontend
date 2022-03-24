@@ -45,7 +45,7 @@ const NotificationDropDown = (props) => {
   const [user, setUser] = useState({})
   const [notifications, setNotifications] = useState([])
   useEffect(async ()=>{
-    let res = await axios.get(`http://localhost:4000/user/${props.username}`)
+    let res = await axios.get(`https://young-cliffs-72209.herokuapp.com/user/${props.username}`)
     setUser(res.data)
     // setNotifications(user.notifications.reverse())
   }, [user])

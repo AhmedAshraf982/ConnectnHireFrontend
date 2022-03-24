@@ -217,7 +217,7 @@ const Register = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let res;
-    res = await axios.post("http://localhost:4000/signup", {
+    res = await axios.post("https://young-cliffs-72209.herokuapp.com/signup", {
       first, last, username, email, password,
     });
       if (res.data == "success") {

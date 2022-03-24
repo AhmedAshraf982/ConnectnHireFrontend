@@ -165,7 +165,7 @@ const PostaJob = () => {
       budget,
       skills: skills_
     }
-    let res =  await axios.post("http://localhost:4000/post", obj);
+    let res =  await axios.post("https://young-cliffs-72209.herokuapp.com/post", obj);
     console.log(res)
     if(res.data == "success"){
       success();

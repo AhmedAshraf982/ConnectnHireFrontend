@@ -86,10 +86,10 @@ const Messages = () => {
   const [msg, setMsg] = useState("")
   const navigate = useNavigate();
   useEffect(async ()=>{
-    let res = await axios.get(`http://localhost:4000/messages/${username}/${other}`)
+    let res = await axios.get(`https://young-cliffs-72209.herokuapp.com/messages/${username}/${other}`)
     setMessages(res.data)
 
-    res = await axios.get(`http://localhost:4000/user/${username}`)
+    res = await axios.get(`https://young-cliffs-72209.herokuapp.com/user/${username}`)
     setUser(res.data)
   }, [user, messages])
 

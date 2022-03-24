@@ -352,7 +352,7 @@ const JobDetails = () => {
   }
 
   const acceptProposal = async () =>{
-    let res = await axios.put(`http://localhost:4000/changeToCurrent/${job._id}`);
+    let res = await axios.put(`https://young-cliffs-72209.herokuapp.com/changeToCurrent/${job._id}`);
     if(res.data == "success"){
       success();
         setTimeout(()=>{
@@ -371,13 +371,13 @@ const JobDetails = () => {
   }
 
   useEffect(async ()=>{
-    let res = await axios.get(`http://localhost:4000/user/${username}`)
+    let res = await axios.get(`https://young-cliffs-72209.herokuapp.com/user/${username}`)
     setMode(res.data.mode)
     if(mode == "selling"){
-      res = await axios.get(`http://localhost:4000/job/${id}`)
+      res = await axios.get(`https://young-cliffs-72209.herokuapp.com/job/${id}`)
       setJob(res.data)
     }else if(mode == "buying"){
-      res = await axios.get(`http://localhost:4000/getApplication/${id}`)
+      res = await axios.get(`https://young-cliffs-72209.herokuapp.com/getApplication/${id}`)
       setJob(res.data)
     }
     
