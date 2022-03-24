@@ -188,7 +188,7 @@ const Navbar = (props) => {
   const [showNotifications, setShowNotifications] = useState(false);
 
   const changeMode = async () => {
-    let res = await axios.put(`hhttps://young-cliffs-72209.herokuapp.com/changeMode/${props.username}`)
+    let res = await axios.put(`https://young-cliffs-72209.herokuapp.com/changeMode/${props.username}`)
     if(res.data == "success"){
       navigate(`/dashboard/${props.username}`)
     }
