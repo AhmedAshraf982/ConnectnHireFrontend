@@ -11,10 +11,11 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   justify-items: center;
+  background-color: #28282B;
   border-top: 1px solid rgba(0, 0, 50, 0.2);
   cursor: pointer;
   &:hover {
-    background-color: #f4f6fc;
+    background-color: #7393B3;
   }
 `;
 
