@@ -23,8 +23,9 @@ const Title = styled.h5`
   margin: 2rem;
   font-size: 1.2rem;
   font-weight: bold;
+  color: #0c6ca1;
   &:hover {
-    color: #0c6ac1;
+    color: black;
   }
   @media screen and (max-width: 768px) {
     font-size: 1rem;
@@ -66,15 +67,27 @@ const PriceType = styled.p`
 `;
 const Level = styled.p`
   margin-right: 0.5rem;
+  color: #0c6ca1;
+  &:hover {
+    color: black;
+  }
   opacity: 0.8;
   font-size: 0.9rem;
 `;
 const Budget = styled.p`
+color: #0c6ca1;
+  &:hover {
+    color: black;
+  }
   margin-right: 0.5rem;
   opacity: 0.8;
   font-size: 0.9rem;
 `;
 const PostedTime = styled.p`
+color: #0c6ca1;
+  &:hover {
+    color: black;
+  }
   margin-right: 0.5rem;
   opacity: 0.8;
   font-size: 0.9rem;
@@ -144,7 +157,7 @@ const CardData = (props) => {
           <Budget>Est.Budget: {props.job.budget}</Budget>
           <PostedTime>Posted 8 hours ago</PostedTime>
         </List>
-        <ReadMore>
+        <ReadMore style={{color: "#0c6ca1"}}>
           {props.status == "delivered" ? props.job.delivery_description : props.mode == "selling" ? props.job.description : props.job.cover
           }
         </ReadMore>
