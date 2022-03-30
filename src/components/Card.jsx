@@ -9,7 +9,7 @@ const Container = styled.div`
   margin-bottom: 10px;
   margin-left: auto;
   margin-right: auto;
-  background-color: white;
+  background-color: black;
   border-radius: 10px;
   box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
     0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
@@ -82,7 +82,7 @@ const Card = (props) => {
     {/* Available jobs */}
       <Container style={{marginTop: 50}}>
         {
-          props.mode == "selling" ? <h1>Available jobs</h1> :  <h1>Proposals</h1>
+          props.mode == "selling" ? <h1 style={{color:"white", padding: 10}}>Available jobs</h1> :  <h1>Proposals</h1>
         }       
         {
         jobs.map((job, index)=>{
@@ -104,7 +104,7 @@ const Card = (props) => {
       
         <Container style={{marginTop: 50}}>
         {
-         props.mode == "selling" ?  <h1>Applied jobs</h1> : <></>
+         props.mode == "selling" ?  <h1 style={{color:"white", padding: 10}}>Applied jobs</h1> : <></>
       }
         {
         props.mode == "selling" ?
@@ -129,7 +129,7 @@ const Card = (props) => {
 
 
       <Container style={{marginTop: 50}}>
-      <h1>Current jobs</h1>
+      <h1 style={{color:"white", padding: 10}}>Current jobs</h1>
         {
         current.map((curr, index)=>{
           {
@@ -148,7 +148,7 @@ const Card = (props) => {
       {/* Delivered Jobs */}
 
       <Container style={{marginTop: 50}}>
-      <h1>Delivered jobs</h1>
+      <h1 style={{color:"white", padding: 10}}>Delivered jobs</h1>
         {
         delivered.map((deliver, index)=>{
           {
@@ -167,7 +167,7 @@ const Card = (props) => {
       {/* Completed Jobs */}
 
       <Container style={{marginTop: 50}}>
-      <h1>Completed jobs</h1>
+      <h1 style={{color:"white", padding: 10}}>Completed jobs</h1>
         {
         completed.map((comp, index)=>{
           {

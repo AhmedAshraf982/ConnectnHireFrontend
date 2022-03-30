@@ -13,7 +13,7 @@ const Container = styled.div`
   width: 80%;
   height: auto;
   min-height: 80%;
-  background-color: #fff;
+  background-color: #7393B3;
   display: flex;
   flex-direction: column;
   margin: 1rem 5rem 0 auto;
@@ -25,9 +25,9 @@ const Container = styled.div`
 
 const Heading = styled.h5`
   text-align: left;
-  font-size: 1.1rem;
-  /* background-color: #0c6ac1; */
-  color: black;
+  font-size: 1.5rem;
+  background-color: #28282B;
+  color: white;
   padding: 1rem;
   @media screen and (max-width: 768px) {
     text-align: center;
@@ -183,7 +183,7 @@ const PostaJob = () => {
     toast("There was an error while posting the job!")
   }
   return (
-    <>
+    <div style={{backgroundColor:"#28282B"}}>
     <Navbar
     username = {username}
     mode = {"buying"}
@@ -271,7 +271,7 @@ background='#EE0022'
         </MinContainer>
       </Container>
       <Footer />
-    </>
+    </div>
   );
 };
 

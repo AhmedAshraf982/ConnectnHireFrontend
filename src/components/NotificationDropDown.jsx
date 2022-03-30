@@ -8,7 +8,7 @@ import axios from 'axios';
 const Container = styled.div`
   width: 250px;
   height: auto;
-  background-color: #fff;
+  background-color: #7393B3;
   border-radius: 5px;
   min-height: 0px;
   position: absolute;

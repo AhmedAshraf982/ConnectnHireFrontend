@@ -12,7 +12,7 @@ import logo from './logo.png'
 
 const Nav = styled.nav`
   height: 80px;
-  background-color: white;
+  background-color: black;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -142,7 +142,7 @@ const DropDown = styled.div`
   position: absolute;
   top: 4rem;
   right: 10rem;
-  background: #fff;
+  background-color: #7393B3;
   border-radius: 5px;
   border: 2px solid #0c6ca1;
   width: auto;
@@ -154,7 +154,7 @@ const UserName = styled.h3`
   font-size: 1rem;
   margin: 1rem 0 0.5rem 0;
   border-bottom: 2px solid #023958;
-  color: #0c6ca1;
+  color: black;
 `;
 
 const ListMenu = styled.ul`
@@ -169,7 +169,7 @@ const List = styled.li`
   justify-content: flex-start;
   text-decoration: none;
   font-size: 1.1rem;
-  color: #0c6ca1;
+  color: black;
 `;
 
 const SettingLogo = styled.div`

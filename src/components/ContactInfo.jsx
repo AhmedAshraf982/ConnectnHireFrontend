@@ -29,7 +29,7 @@ const AccountContainer = styled.div`
   border: 1px solid #0c6ac1;
   border-radius: 5px;
   padding: 1rem 2rem;
-  background-color: #fff;
+  background-color: #7393B3;
   @media screen and (max-width: 768px) {
     border-left: 0;
     border-right: 0;

@@ -75,8 +75,8 @@ const SendButton = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-color: teal;
-  color: white;
+  background-color: #0c6ca1;
+  color: black;
 `;
 
 const Messages = () => {
@@ -105,7 +105,7 @@ const Messages = () => {
   }
 
   return (
-    <>
+    <div style={{backgroundColor:"#28282B"}}>
     <Navbar username={username}
     mode = {user.mode}
     firstname = {user.first}
@@ -122,7 +122,7 @@ const Messages = () => {
                   />
                 );
               }) :
-              <p>No new messages to show!</p>
+              <p style={{color:"white"}}>No new messages to show!</p>
             }
           </ChatBoxTop>
           <ChatBoxBottom>
@@ -135,7 +135,7 @@ const Messages = () => {
       </ChatBox>
     </Messenger>
     <Footer />
-    </>
+    </div>
   );
 };
 

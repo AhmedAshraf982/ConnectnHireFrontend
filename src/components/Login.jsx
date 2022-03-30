@@ -26,8 +26,8 @@ const Container = styled.div`
   overflow-y: auto;
   width: 30%;
   height: 500px;
-  background-color: #fff;
-  box-shadow: #28b2ff 0px 5px 15px;
+  background-color: #7393B3;;
+  box-shadow: black 0px 5px 15px;
   display: flex;
   border-radius: 50px;
   flex-direction: column;
@@ -63,7 +63,7 @@ const Heading = styled.h4`
   font-size: 2rem;
   font-weight: bold;
   text-align: center;
-  color: #0c6ca1;
+  color: black;
   margin-top: 10px;
   @media screen and (max-width: 950px) {
     margin-top: 100px;

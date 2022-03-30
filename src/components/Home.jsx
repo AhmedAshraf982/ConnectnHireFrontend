@@ -30,7 +30,7 @@ function App() {
     setIsOpen(!isOpen);
   };
   return (
-    <>
+    <div style={{backgroundColor:"#28282B"}}>
         <Navbar
           closeLoginModal={setOpenSignin}
           closeSignupModal={setOpenSignup}
@@ -47,21 +47,18 @@ function App() {
           closeSignupModal={setOpenSignup}
         />
         <MessageDropDown />
-        {/* <JobDetails /> */}
+
         <Header username={user.username} />
-        {/* <UserDashBoard /> */}
+       
         <Card username={user.username}
                 mode = {!user.mode ? "selling" : user.mode}
           />
-        {/* <JobDetails /> */}
-          {/* <SubmitProposal /> */}
-          {/* <UserDashBoard /> */}
          
         <Footer />
 
       <Login closeModal={setOpenSignin} openSignin={openSignin} />
       <Register closeModal={setOpenSignup} openSignup={openSignup} />
-    </>
+    </div>
   );
 }
 

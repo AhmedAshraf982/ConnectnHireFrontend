@@ -20,6 +20,7 @@ const Heading = styled.h5`
   font-size: 1.5rem;
   font-weight: 700;
   opacity: 0.9;
+  color: white;
   @media screen and (max-width: 768px) {
     display: none;
     transform: translateY(-100%);
@@ -32,7 +33,7 @@ const Container = styled.div`
   margin-top: 10px;
   margin-left: auto;
   margin-right: auto;
-  background-color: #fff;
+  background-color: #7393B3;
   border-radius: 10px;
   border: 1px solid #0c6ca1;
   opacity: 0.8;
@@ -71,7 +72,6 @@ const JobDiv = styled.div`
 const JobTitle = styled.h5`
   margin: 1rem 2rem 1rem 4rem;
   font-size: 1.2rem;
-  color: black;
   font-family: Arial, Helvetica, sans-serif;
 `;
 
@@ -391,7 +391,7 @@ const JobDetails = () => {
    <MainContainer>
     
      <Heading>{mode == "selling" ? "Job Details" : "Application Details"}</Heading>
-     <JobTitle>{mode == "selling" ? "Client: " + job.client : "Freelancer: " + job.freelancer}</JobTitle>
+     <h2 style={{marginLeft: 100, color: "white"}}>{mode == "selling" ? "Client: " + job.client : "Freelancer: " + job.freelancer}</h2>
      <Container>
        <LargeContainer>
          <JobDiv>

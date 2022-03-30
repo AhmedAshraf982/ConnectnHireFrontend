@@ -6,7 +6,7 @@ const Container = styled.div`
   height: 200px;
   margin: 2rem 8.5rem 2rem;
   border: 1px solid #0c6ac1;
-  background-color: #fff;
+  background-color: #7393B3;
   border-radius: 5px;
   @media screen and (max-width: 768px) {
     display: none;
@@ -34,18 +34,18 @@ const Header = (props) => {
   return (
     <>
       <Container>
-        <Date>
+        <Date style={{color: "white"}}>
           {date.toLocaleString("default", { month: "long" })} {date.getDate()},{" "}
           {date.getFullYear()}
         </Date>
-        <Timing>
+        <Timing style={{color: "white"}}>
           {date.getHours() >= 0 && date.getHours() < 12
             ? "Good Morning"
             : date.getHours() >= 12 && date.getHours() <= 17
             ? "Good Afternoon!"
             : "Good Evening"}
         </Timing>
-        <UserName style={{marginTop: 30, fontWeight:"bold"}}>{props.username}</UserName>
+        <UserName style={{marginTop: 30, color: "black", fontWeight:"bold"}}>{props.username}</UserName>
       </Container>
     </>
   );

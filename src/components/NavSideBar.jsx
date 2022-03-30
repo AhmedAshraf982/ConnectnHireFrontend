@@ -89,7 +89,7 @@ const SidebarRoute = styled.button`
   &:hover {
     transition: 0.2s all ease-in-out;
     background-color: #023958;
-    color: #fff;
+    color: black;
   }
 `;
 

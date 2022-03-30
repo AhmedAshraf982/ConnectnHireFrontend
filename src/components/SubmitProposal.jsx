@@ -31,7 +31,7 @@ const JobDetails = styled.div`
   border: 1px solid #0c6ac1;
   border-radius: 5px;
   margin: auto;
-  background-color: #fff;
+  background-color: #7393B3;
   @media screen and (max-width: 768px) {
     border-top: 1px solid #0c6ac1;
     border-bottom: 1px solid #0c6ac1;
@@ -127,6 +127,7 @@ const Length = styled.div`
   padding-bottom: 1rem;
 `;
 const SkillAndExpert = styled.div`
+  background-color: #7393B3;
   display: flex;
   flex-direction: column;
   justify-items: center;
@@ -140,6 +141,7 @@ const SkillAndExpert = styled.div`
   }
 `;
 const SkillDiv = styled.div`
+  background-color: #7393B3;
   display: flex;
   margin: 0.2rem 4rem 2rem 4rem;
   overflow-x: scroll;
@@ -156,7 +158,7 @@ const SubmitProp = styled.div`
   margin: 2rem auto 0 auto;
   border: 1px solid #0c6ac1;
   border-radius: 5px;
-  background-color: #fff;
+  background-color: #7393B3;
   @media screen and (max-width: 768px) {
     border-radius: 0px;
     width: 100%;
