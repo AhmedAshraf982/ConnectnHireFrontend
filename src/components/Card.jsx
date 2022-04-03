@@ -75,7 +75,7 @@ const Card = (props) => {
       res = await axios.get(`https://young-cliffs-72209.herokuapp.com/clientCompleted/${props.username}`)
       setCompleted(res.data)
     }
-  }, [jobs, applied, current, delivered, completed])
+  }, [])
   return (
     <>
 

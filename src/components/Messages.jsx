@@ -91,7 +91,7 @@ const Messages = () => {
 
     res = await axios.get(`https://young-cliffs-72209.herokuapp.com/user/${username}`)
     setUser(res.data)
-  }, [user, messages])
+  }, [])
 
   const sendMsg = async() => {
     let obj = {

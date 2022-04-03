@@ -181,7 +181,7 @@ const JobSubmitPage = (props) => {
         res = await axios.get(`http://localhost:4000/user/${username}`);
         setUser(res.data)
         console.log(user)
-    }, [user, app])
+    }, [])
 
     const cancel = () => {
         navigate(`/dashboard/${user.username}`);
