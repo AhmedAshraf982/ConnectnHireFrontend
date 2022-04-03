@@ -47,7 +47,7 @@ const MessageDropDown = (props) => {
   useEffect(async ()=>{
     let res = await axios.get(`https://young-cliffs-72209.herokuapp.com/chats/${props.username}`)
     setChats(res.data)
-  }, [])
+  })
 
   
   return (

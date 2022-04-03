@@ -308,7 +308,7 @@ const SubmitProposal = () => {
     setMode(res.data.mode)
     res = await axios.get(`https://young-cliffs-72209.herokuapp.com/job/${id}`)
     setJob(res.data)
-  }, [])
+  }, [mode, job])
 
   const success = () => {
     toast("Signed up successfully!")

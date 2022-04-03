@@ -381,7 +381,7 @@ const JobDetails = () => {
       setJob(res.data)
     }
     
-  }, [])
+  }, [job, mode])
   return (
     <>
     <Navbar username={username}
