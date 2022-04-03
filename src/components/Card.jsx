@@ -82,7 +82,7 @@ const Card = (props) => {
     {/* Available jobs */}
       <Container style={{marginTop: 50}}>
         {
-          props.mode == "selling" ? <h1 style={{color:"white", padding: 10}}>Available jobs</h1> :  <h1>Proposals</h1>
+          props.mode == "selling" ? <h1 style={{color:"white", padding: 10}}>Available jobs</h1> :  <h1 style={{color:"white", padding: 10}}>Proposals</h1>
         }       
         {
         jobs.map((job, index)=>{
