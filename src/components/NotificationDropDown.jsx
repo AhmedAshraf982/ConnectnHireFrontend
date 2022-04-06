@@ -55,7 +55,7 @@ const NotificationDropDown = (props) => {
         {/* <Pin>hi</Pin> */}
         {
           user.username != undefined ? 
-          notifications.map((noti, index)=>{
+          user.notifications.map((noti, index)=>{
             //   if(index < 10){
                 return(
                     <MessageNotify chat={noti} />
