@@ -41,6 +41,13 @@ const MessageName = styled.p`
   text-align: left;
 `;
 
+const Dot = styled.p`
+  height: 25px;
+  width: 25px;
+  background-color: #7393B3;
+  border-radius: 50%;
+  display: inline-block;
+`;
 
 const MessageNotify = (props) => {
   const navigate = useNavigate()
@@ -65,6 +72,7 @@ const MessageNotify = (props) => {
         <ClientName>{props.chat.label}</ClientName>
         <MessageName>
           {props.chat.msg ? getMsg(props.chat.msg) : "No new message to show"}
+          {props.chat.read ? "" : <Dot />}
         </MessageName>
       </MinContainer>
     </MessageBorder>

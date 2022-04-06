@@ -44,7 +44,7 @@ const Message = (props) => {
           />
           <MessageText own={props.own}>{props.msg}</MessageText>
         </MessageTop>
-        <MessageBottom>{props.time.split("-")[1]}</MessageBottom>
+        <MessageBottom style={{color:"white", fontWeight:"bold"}}>{props.time.split("-")[1]}</MessageBottom>
       </Messages>
     </>
   );
