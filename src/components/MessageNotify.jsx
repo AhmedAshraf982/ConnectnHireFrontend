@@ -60,11 +60,13 @@ const MessageNotify = (props) => {
     }
     return msg;
   }
+  const markAsUnread = () => {
+    let response = await axios.put(`https://young-cliffs-72209.herokuapp.com/markAsRead/${props.username}/${props.chat.label}`);
+  }
   return (
     <MessageBorder
-    onClick={async () => {
-      console.log("here");
-      let response = await axios.put(`https://young-cliffs-72209.herokuapp.com/markAsRead/${username}/${props.chat.label}`);
+    onClick={ () => {
+      markAsUnread();
       navigate(`/messages/${props.username}/${props.chat.label}`)
     }}>
       <Image
