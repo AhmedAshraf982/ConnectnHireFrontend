@@ -311,14 +311,14 @@ const SubmitProposal = () => {
   }, [mode, job])
 
   const success = () => {
-    toast("Signed up successfully!")
+    toast("Proposal submitted successfully!")
   }
 
   const incorrect = () => {
-    toast("Unfortunately, failed to sign up!")
+    toast("Unfortunately, failed to submit proposal!")
   }
   return (
-    <>
+    <div style={{backgroundColor:"#28282B"}}>
       <Navbar 
       username={username}
       mode={mode}
@@ -402,7 +402,7 @@ background='#EE0022'
           <CancelButton>Cancel</CancelButton>
         </GroupButton>
       </SubmitProp>
-    </>
+    </div>
   );
 };
 
