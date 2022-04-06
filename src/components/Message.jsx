@@ -44,7 +44,7 @@ const Message = (props) => {
           />
           <MessageText own={props.own}>{props.msg}</MessageText>
         </MessageTop>
-        <MessageBottom>1 hour ago</MessageBottom>
+        <MessageBottom>{props.time.split("-")[1]}</MessageBottom>
       </Messages>
     </>
   );

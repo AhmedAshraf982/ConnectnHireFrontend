@@ -119,6 +119,7 @@ const Messages = () => {
               messages.map((msg, index)=>{
                 return(
                   <Message own={msg.sender == username ? true : false} msg={msg.msg}
+                  time={msg.time}
                   />
                 );
               }) :
