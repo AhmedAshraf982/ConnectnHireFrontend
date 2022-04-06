@@ -62,7 +62,7 @@ const MessageNotify = (props) => {
   }
   return (
     <MessageBorder
-    onClick={() => {
+    onClick={async () => {
       console.log("here");
       let response = await axios.put(`https://young-cliffs-72209.herokuapp.com/markAsRead/${username}/${props.chat.label}`);
       navigate(`/messages/${props.username}/${props.chat.label}`)
