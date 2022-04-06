@@ -42,9 +42,9 @@ const MessageName = styled.p`
 `;
 
 const Dot = styled.p`
-  height: 25px;
-  width: 25px;
-  background-color: #7393B3;
+  height: 15px;
+  width: 15px;
+  background-color: white;
   border-radius: 50%;
   display: inline-block;
 `;
