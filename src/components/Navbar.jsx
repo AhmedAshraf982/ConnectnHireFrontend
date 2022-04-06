@@ -223,6 +223,10 @@ const Navbar = (props) => {
     }
   }
 
+  const about = () => {
+    navigate(`/About/${props.username}`)
+  }
+
   const PostJob = () => {
     navigate(`/postJob/${props.username}`)
   }
@@ -270,6 +274,11 @@ const Navbar = (props) => {
               }}>
                 Notifications
                 {notiRead=="unread" ? <Dot /> : ""}
+              </NavLinks>
+            </NavItem>
+            <NavItem>
+              <NavLinks onClick={about}>
+              About Us
               </NavLinks>
             </NavItem>
           </NavMenu>

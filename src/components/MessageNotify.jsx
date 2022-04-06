@@ -60,7 +60,7 @@ const MessageNotify = (props) => {
     }
     return msg;
   }
-  const markAsUnread = () => {
+  const markAsUnread = async () => {
     let response = await axios.put(`https://young-cliffs-72209.herokuapp.com/markAsRead/${props.username}/${props.chat.label}`);
   }
   return (

@@ -7,13 +7,14 @@ import PostaJob from './components/PostaJob';
 import Messages from './components/Messages';
 import Settings from './components/Settings';
 import JobSubmitPage from './components/JobSubmitPage';
-
+import About from './components/About';
 
 function App() {
     return (
       <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/About/:username" element={<About />} />
             <Route path="/dashboard/:username" element={<Home />} />
             <Route path="/job/:username/:id" element={<JobDetails />} />
             <Route path="/submitProposal/:username/:id" element={<SubmitProposal />} />
