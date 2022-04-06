@@ -10,6 +10,7 @@ import {
 } from "react-icons/ai";
 import { BsFacebook } from "react-icons/bs";
 import "./footerStyle.css";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: grid;
@@ -159,6 +160,14 @@ const CopyRight = styled.div`
 
 
 const Footer = () => {
+  const navigate = useNavigate();
+  const facebook = () => {
+    navigate("https://www.facebook.com/Connect-Hire-103844968945134/");
+  }
+
+  const instagram = () => {
+    navigate("https://instagram.com/connectandhire?utm_medium=copy_link");
+  }
   return (
     <>
       <Container>
@@ -187,10 +196,10 @@ const Footer = () => {
         <LinkContainer>
           <Follow>
             <p>Follow Us</p>
-            <FaIcon />
+            <FaIcon onClick={facebook}/>
             <TaIcon />
             <YtIcon />
-            <InIcon />
+            <InIcon onClick={instagram}/>
             <LiIcon />
           </Follow>
           <MobileApp>
