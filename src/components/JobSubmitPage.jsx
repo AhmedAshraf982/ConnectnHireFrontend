@@ -175,10 +175,10 @@ const JobSubmitPage = (props) => {
     const navigate = useNavigate();
 
     useEffect(async ()=>{
-        let res = await axios.get(`http://localhost:4000/getApplication/${id}`);
+        let res = await axios.get(`https://young-cliffs-72209.herokuapp.com/getApplication/${id}`);
         setApp(res.data);
 
-        res = await axios.get(`http://localhost:4000/user/${username}`);
+        res = await axios.get(`https://young-cliffs-72209.herokuapp.com/user/${username}`);
         setUser(res.data)
         console.log(user)
     }, [user, app])
@@ -219,7 +219,7 @@ const JobSubmitPage = (props) => {
       }
     }
   return (
-      <>
+    <div style={{backgroundColor:"#28282B"}}>
       <Navbar username={user.username}
         mode = {user.mode}
         firstname = {user.first}
@@ -287,7 +287,7 @@ background='#EE0022'
       </MinContainer>
     </Container>
     <Footer />
-    </>
+    </div>
   );
 };
 
