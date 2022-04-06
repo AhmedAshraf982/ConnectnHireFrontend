@@ -72,7 +72,7 @@ const MessageNotify = (props) => {
         <ClientName>{props.chat.label}</ClientName>
         <MessageName>
           {props.chat.msg ? getMsg(props.chat.msg) : "No new message to show"}
-          {props.chat.read == "unread" ? <Dot /> : ""}
+          {props.chat.read == false ? <Dot /> : ""}
         </MessageName>
       </MinContainer>
     </MessageBorder>
