@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -61,7 +62,8 @@ const MessageNotify = (props) => {
   return (
     <MessageBorder
     onClick={() => {
-      console.log("here")
+      console.log("here");
+      let response = await axios.put(`https://young-cliffs-72209.herokuapp.com/markAsRead/${username}/${props.chat.label}`);
       navigate(`/messages/${props.username}/${props.chat.label}`)
     }}>
       <Image
