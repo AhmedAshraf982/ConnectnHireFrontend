@@ -48,6 +48,7 @@ const Dot = styled.p`
   background-color: white;
   border-radius: 50%;
   display: inline-block;
+  margin-left: 10px
 `;
 
 const MessageNotify = (props) => {
