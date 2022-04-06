@@ -100,7 +100,7 @@ const Messages = () => {
       read: false,
       msg: msg
     }
-    let res = await axios.post("http://localhost:4000/message", obj)
+    let res = await axios.post("https://young-cliffs-72209.herokuapp.com/message", obj)
     setMsg("")
   }
 
