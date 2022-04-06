@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link as LinkR, useNavigate } from "react-router-dom";
 import { Link as LinkS } from "react-scroll";
@@ -181,11 +181,26 @@ const LogOutLogo = styled.div`
   font-size: 1.2rem;
   cursor: pointer;
 `;
+
+const Dot = styled.p`
+  height: 15px;
+  width: 15px;
+  background-color: white;
+  border-radius: 50%;
+  display: inline-block;
+`;
+
 const Navbar = (props) => {
   const navigate = useNavigate()
   const [dropshow, setDropShow] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [read, setRead] = useState("");
+
+  useEffect(async ()=>{
+    let response = await axios.get(`https://young-cliffs-72209.herokuapp.com/unreadMsg/${props.username}`)
+    setRead(response.data)
+  })
 
   const changeMode = async () => {
     let res = await axios.put(`https://young-cliffs-72209.herokuapp.com/changeMode/${props.username}`)
@@ -238,6 +253,7 @@ const Navbar = (props) => {
               setShowNotifications(showNotifications)
               }}>
                 Message
+                {read ? "" : <Dot />}
               </NavLinks>
             </NavItem>
             <NavItem>
