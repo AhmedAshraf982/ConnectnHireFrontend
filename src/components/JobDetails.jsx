@@ -383,7 +383,7 @@ const JobDetails = () => {
     
   }, [job, mode])
   return (
-    <>
+    <div style={{backgroundColor:"#28282B"}}>
     <Navbar username={username}
     mode={mode}
      />
@@ -496,7 +496,7 @@ background='#EE0022'
      </Container>
    </MainContainer>
    <Footer />
-   </>
+   </div>
   );
 };
 

@@ -10,7 +10,7 @@ import {
 } from "react-icons/ai";
 import { BsFacebook } from "react-icons/bs";
 import "./footerStyle.css";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, Route } from "react-router-dom";
 
 const Container = styled.div`
   display: grid;
@@ -162,11 +162,11 @@ const CopyRight = styled.div`
 const Footer = () => {
   const navigate = useNavigate();
   const facebook = () => {
-    navigate("https://www.facebook.com/Connect-Hire-103844968945134/");
+    window.location.replace("https://www.facebook.com/Connect-Hire-103844968945134/");
   }
 
   const instagram = () => {
-    navigate("https://instagram.com/connectandhire?utm_medium=copy_link");
+    window.location.replace("https://instagram.com/connectandhire?utm_medium=copy_link");
   }
   return (
     <>
