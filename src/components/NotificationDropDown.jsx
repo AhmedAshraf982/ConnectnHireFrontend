@@ -48,7 +48,7 @@ const NotificationDropDown = (props) => {
     let res = await axios.get(`https://young-cliffs-72209.herokuapp.com/user/${props.username}`)
     setUser(res.data)
     // setNotifications(user.notifications.reverse())
-  }, [user])
+  })
   return (
     <>
       <Container isOpen={props.showNotifications}>
