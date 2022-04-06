@@ -188,6 +188,7 @@ const Dot = styled.p`
   background-color: white;
   border-radius: 50%;
   display: inline-block;
+  margin-left: 10px;
 `;
 
 const Navbar = (props) => {
@@ -196,10 +197,13 @@ const Navbar = (props) => {
   const [showMessage, setShowMessage] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [read, setRead] = useState("");
+  const [notiRead, setNotiRead] = useState("");
 
   useEffect(async ()=>{
     let response = await axios.get(`https://young-cliffs-72209.herokuapp.com/unreadMsg/${props.username}`)
     setRead(response.data)
+    response = await axios.get(`https://young-cliffs-72209.herokuapp.com/unreadNotification/${props.username}`);
+    setNotiRead(response.data);
   })
 
   const changeMode = async () => {
@@ -230,6 +234,9 @@ const Navbar = (props) => {
     setDropShow(!dropshow);
     navigate(`/`)
   }
+  const markNotificationsRead = () =>{
+    let response = axios.put(`https://young-cliffs-72209.herokuapp.com/markNotificationsRead/${props.username}`);
+  }
   return (
     <>
       <Nav onClick={() => {setShowMessage(false)
@@ -252,15 +259,17 @@ const Navbar = (props) => {
               <NavLinks onClick={() => {setShowMessage(!showMessage)
               setShowNotifications(showNotifications)
               }}>
-                Message
-                {read ? "" : <Dot />}
+                 Message
+                {read=="unread" ? <Dot /> : ""}
               </NavLinks>
             </NavItem>
             <NavItem>
               <NavLinks onClick={() => {setShowNotifications(!showNotifications)
               setShowMessage(showMessage)
+              markNotificationsRead()
               }}>
                 Notifications
+                {notiRead=="unread" ? <Dot /> : ""}
               </NavLinks>
             </NavItem>
           </NavMenu>
