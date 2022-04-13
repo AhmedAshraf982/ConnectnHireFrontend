@@ -10,7 +10,6 @@ import {
 } from "react-icons/ai";
 import { BsFacebook } from "react-icons/bs";
 import "./footerStyle.css";
-import { Navigate, useNavigate, Route } from "react-router-dom";
 
 const Container = styled.div`
   display: grid;
@@ -18,7 +17,7 @@ const Container = styled.div`
   grid-template-rows: repeat(3, 1fr);
   grid-row-gap: 6px;
   width: 100%;
-  background-color: rgba(12, 106, 193, 0.4);
+  background-color: black;
   margin-top: 4rem;
   padding: 4rem 2.5rem 0rem 5rem;
   color: #fff;
@@ -44,12 +43,12 @@ const ListContainer = styled.div`
 `;
 
 const LinkContainer = styled.div`
-  border-top: 1px solid rgb(12, 106, 193);
+  border-top: 1px solid black;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: 1fr;
   grid-column-gap: 6px;
-  border-bottom: 1px solid rgb(12, 106, 193);
+  border-bottom: 1px solid black;
   @media screen and (max-width: 768px) {
     display: flex;
     flex-direction: column;
@@ -158,16 +157,18 @@ const CopyRight = styled.div`
   }
 `;
 
-
 const Footer = () => {
-  const navigate = useNavigate();
   const facebook = () => {
-    window.location.replace("https://www.facebook.com/Connect-Hire-103844968945134/");
-  }
+    window.location.replace(
+      "https://www.facebook.com/Connect-Hire-103844968945134/"
+    );
+  };
 
   const instagram = () => {
-    window.location.replace("https://instagram.com/connectandhire?utm_medium=copy_link");
-  }
+    window.location.replace(
+      "https://instagram.com/connectandhire?utm_medium=copy_link"
+    );
+  };
   return (
     <>
       <Container>
@@ -196,10 +197,10 @@ const Footer = () => {
         <LinkContainer>
           <Follow>
             <p>Follow Us</p>
-            <FaIcon onClick={facebook}/>
+            <FaIcon onClick={facebook} />
             <TaIcon />
             <YtIcon />
-            <InIcon onClick={instagram}/>
+            <InIcon onClick={instagram} />
             <LiIcon />
           </Follow>
           <MobileApp>

@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Conversation from "./Conversation";
 import Message from "./Message";
-import axios from 'axios';
+import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-
 
 const Messenger = styled.div`
   height: calc(100vh-80px);
@@ -75,67 +73,78 @@ const SendButton = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-color: #0c6ca1;
+  background-color: #42c2ff;
   color: black;
 `;
 
 const Messages = () => {
-  const {username, other} = useParams();
+  const { username, other } = useParams();
   const [user, setUser] = useState({});
   const [messages, setMessages] = useState([]);
-  const [msg, setMsg] = useState("")
+  const [msg, setMsg] = useState("");
   const navigate = useNavigate();
-  useEffect(async ()=>{
-    let res = await axios.get(`https://young-cliffs-72209.herokuapp.com/messages/${username}/${other}`)
-    setMessages(res.data)
+  useEffect(() => {
+    async function fetchData() {
+      let res = await axios.get(
+        `https://young-cliffs-72209.herokuapp.com/messages/${username}/${other}`
+      );
+      setMessages(res.data);
 
-    res = await axios.get(`https://young-cliffs-72209.herokuapp.com/user/${username}`)
-    setUser(res.data)
-  })
+      res = await axios.get(
+        `https://young-cliffs-72209.herokuapp.com/user/${username}`
+      );
+      setUser(res.data);
+    }
+    fetchData();
+  }, [username, other]);
 
-  const sendMsg = async() => {
+  const sendMsg = async () => {
     let obj = {
       sender: username,
       receiver: other,
       read: false,
-      msg: msg
-    }
-    let res = await axios.post("https://young-cliffs-72209.herokuapp.com/message", obj)
-    setMsg("")
-  }
+      msg: msg,
+    };
+    let res = await axios.post(
+      "https://young-cliffs-72209.herokuapp.com/message",
+      obj
+    );
+    setMsg("");
+  };
 
   return (
-    <div style={{backgroundColor:"#28282B"}}>
-    <Navbar username={username}
-    mode = {user.mode}
-    firstname = {user.first}
-    />
-    <Messenger>
-      <ChatBox>
-        <ChatBoxWrapper>
-          <ChatBoxTop>
-            {
-              messages.length ?
-              messages.map((msg, index)=>{
-                return(
-                  <Message own={msg.sender == username ? true : false} msg={msg.msg}
-                  time={msg.time}
-                  />
-                );
-              }) :
-              <p style={{color:"white"}}>No new messages to show!</p>
-            }
-          </ChatBoxTop>
-          <ChatBoxBottom>
-            <InputArea placeholder="Enter message..." value={msg}
-            onChange={(e) => setMsg(e.target.value)}
-            />
-            <SendButton onClick={sendMsg}>Send</SendButton>
-          </ChatBoxBottom>
-        </ChatBoxWrapper>
-      </ChatBox>
-    </Messenger>
-    <Footer />
+    <div style={{ backgroundColor: "#effffd" }}>
+      <Navbar username={username} mode={user.mode} firstname={user.first} />
+      <Messenger>
+        <ChatBox>
+          <ChatBoxWrapper>
+            <ChatBoxTop>
+              {messages.length ? (
+                messages.map((msg, index) => {
+                  return (
+                    <Message
+                      own={msg.sender === username ? true : false}
+                      msg={msg.msg}
+                      time={msg.time}
+                    />
+                  );
+                })
+              ) : (
+                <p style={{ color: "white" }}>No new messages to show!</p>
+              )}
+            </ChatBoxTop>
+            <ChatBoxBottom>
+              <InputArea
+                placeholder="Enter message..."
+                value={msg}
+                onChange={(e) => setMsg(e.target.value)}
+              />
+              <SendButton onClick={sendMsg}>Send</SendButton>
+            </ChatBoxBottom>
+          </ChatBoxWrapper>
+        </ChatBox>
+      </Messenger>
+      <Footer />
     </div>
   );
 };

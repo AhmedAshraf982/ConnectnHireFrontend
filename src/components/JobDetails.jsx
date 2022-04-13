@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import TypesButton from "./TypesButton";
-import { useParams } from 'react-router-dom'
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "./Navbar";
-import Header from './Header'
-import Footer from './Footer';
+import Header from "./Header";
+import Footer from "./Footer";
 import { Navigate, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MainContainer = styled.div`
   width: 100%;
@@ -33,7 +33,7 @@ const Container = styled.div`
   margin-top: 10px;
   margin-left: auto;
   margin-right: auto;
-  background-color: #7393B3;
+  background-color: #7393b3;
   border-radius: 10px;
   border: 1px solid #0c6ca1;
   opacity: 0.8;
@@ -211,7 +211,7 @@ const BookMark = styled.button`
 `;
 
 const ChatButton = styled.button`
-border: 1px solid green;
+  border: 1px solid green;
   border-radius: 160px;
   background-color: #fff;
   color: green;
@@ -229,7 +229,7 @@ border: 1px solid green;
   @media screen and (max-width: 768px) {
     width: 80%;
   }
-`
+`;
 
 const SecondContainer = styled.div`
   border-bottom: 1px solid #0c6ca1;
@@ -334,169 +334,185 @@ const CopyLink = styled.p`
 `;
 
 const JobDetails = () => {
-  const navigate = useNavigate()
-  const {username, id} = useParams();
-  const [mode, setMode] = useState("")
-  const [job, setJob] = useState({})
+  const navigate = useNavigate();
+  const { username, id } = useParams();
+  const [mode, setMode] = useState("");
+  const [job, setJob] = useState({});
 
   const submitProposal = () => {
     navigate(`/submitProposal/${username}/${id}`);
-  }
+  };
 
   const success = () => {
-    toast("Proposal has been accepted successfully!")
-  }
+    toast("Proposal has been accepted successfully!");
+  };
 
   const incorrect = () => {
-    toast("There was an error while accepting the proposal!")
-  }
+    toast("There was an error while accepting the proposal!");
+  };
 
-  const acceptProposal = async () =>{
-    let res = await axios.put(`https://young-cliffs-72209.herokuapp.com/changeToCurrent/${job._id}`);
-    if(res.data == "success"){
+  const acceptProposal = async () => {
+    let res = await axios.put(
+      `https://young-cliffs-72209.herokuapp.com/changeToCurrent/${job._id}`
+    );
+    if (res.data == "success") {
       success();
-        setTimeout(()=>{
-          navigate(`/dashboard/${username}`)}, 2000)
-    }else{
+      setTimeout(() => {
+        navigate(`/dashboard/${username}`);
+      }, 2000);
+    } else {
       incorrect();
-    } 
-  }
+    }
+  };
 
-  const Reject = () => {
-
-  }
+  const Reject = () => {};
 
   const Chat = () => {
     navigate(`/messages/${job.client}/${job.freelancer}`);
-  }
+  };
 
-  useEffect(async ()=>{
-    let res = await axios.get(`https://young-cliffs-72209.herokuapp.com/user/${username}`)
-    setMode(res.data.mode)
-    if(mode == "selling"){
-      res = await axios.get(`https://young-cliffs-72209.herokuapp.com/job/${id}`)
-      setJob(res.data)
-    }else if(mode == "buying"){
-      res = await axios.get(`https://young-cliffs-72209.herokuapp.com/getApplication/${id}`)
-      setJob(res.data)
+  useEffect(async () => {
+    let res = await axios.get(
+      `https://young-cliffs-72209.herokuapp.com/user/${username}`
+    );
+    setMode(res.data.mode);
+    if (mode == "selling") {
+      res = await axios.get(
+        `https://young-cliffs-72209.herokuapp.com/job/${id}`
+      );
+      setJob(res.data);
+    } else if (mode == "buying") {
+      res = await axios.get(
+        `https://young-cliffs-72209.herokuapp.com/getApplication/${id}`
+      );
+      setJob(res.data);
     }
-    
-  }, [job, mode])
+  }, [job, mode]);
   return (
-    <div style={{backgroundColor:"#28282B"}}>
-    <Navbar username={username}
-    mode={mode}
-     />
-     <Header username={username}/>
-   <MainContainer>
-    
-     <Heading>{mode == "selling" ? "Job Details" : "Application Details"}</Heading>
-     <h2 style={{marginLeft: 100, color: "white"}}>{mode == "selling" ? "Client: " + job.client : "Freelancer: " + job.freelancer}</h2>
-     <Container>
-       <LargeContainer>
-         <JobDiv>
-           <JobTitle>Title: {job.title}</JobTitle>
-         </JobDiv>
-         <JobDiv>
-           <Description>
-             Description: <br /><br/>
-             {job.description}
-           </Description>
-           {
-             mode == "buying" ? 
-             <Description>
-             Cover Letter: <br /><br/>
-             {job.cover}
-           </Description> : <></>
-           }
-         </JobDiv>
-         <PriceAndLevel>
-           <Price>Budget: {job.budget}</Price>
-           <Level>Level: {job.level}</Level>
-         </PriceAndLevel>
-         <JobDiv>
-           <ProjectType>
-             <span>Project Type: </span>
-             {job.type}
-           </ProjectType>
-         </JobDiv>
-         <SkillsAndExpert>
-           <SkillExpert>Skills and Expertise</SkillExpert>
-           {
-             job.skills ? 
-             job.skills.map((skill, index)=>{
-               return(
-                 <Category>{skill}</Category>
-               )
-             }):
-             <Category>N/A</Category>
-           }
-           <div style={{marginTop: 20}}></div>
-         </SkillsAndExpert>
-         <Activity>
-           <ActJob>Activity on this job</ActJob>
-           <Prop>Proposals: Less than 5</Prop>
-           <Interview>Interviewing: 0</Interview>
-           <Invite>Invites sent: 0</Invite>
-           <Unanswered>Unanswered invites: 0</Unanswered>
-         </Activity>
-       </LargeContainer>
-       <SmallContainer>
-         <FirstContainer>
-           {
-             mode == "selling" ?
-             <SubmitButton onClick={submitProposal}>{"Submit Proposal"}</SubmitButton> :
-             <SubmitButton onClick={acceptProposal}>{"Accept Proposal"}</SubmitButton>
-           }
-           {
-             mode == "buying" ? 
-             <>
-             <BookMark onClick={Reject}>Reject</BookMark>
-            <ChatButton onClick={Chat}>Chat</ChatButton></> : <></>
-           }
-           <ToastContainer
-position="top-center"
-autoClose={1000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-background='#EE0022'
-/>
-         </FirstContainer>
-         <SecondContainer>
-           <About>About the client</About>
-           <Payement>Payment method not verified</Payement>
-           <Country>Jordan</Country>
-           <Con>
-             <Name>Amman</Name>
-             <Posted>10.34pm</Posted>
-           </Con>
-           <JobPosted>1 job posted</JobPosted>
-           <Jp>
-             <HireRate>0% hire rate,</HireRate>
-             <OpenJob>1 open job</OpenJob>
-           </Jp>
-           <Education>Education</Education>
-           <Member>Member since Mar 18, 2022</Member>
-         </SecondContainer>
-         <ThirdContainer>
-           <JobLink>Job link</JobLink>
-           <InputField
-             value="https://www.upwork.com/jobs/~0164284a27b7bfaa27"
-             disabled
-           />
+    <div style={{ backgroundColor: "#effffd" }}>
+      <Navbar username={username} mode={mode} />
+      <Header username={username} />
+      <MainContainer>
+        <Heading>
+          {mode == "selling" ? "Job Details" : "Application Details"}
+        </Heading>
+        <h2 style={{ marginLeft: 100, color: "white" }}>
+          {mode == "selling"
+            ? "Client: " + job.client
+            : "Freelancer: " + job.freelancer}
+        </h2>
+        <Container>
+          <LargeContainer>
+            <JobDiv>
+              <JobTitle>Title: {job.title}</JobTitle>
+            </JobDiv>
+            <JobDiv>
+              <Description>
+                Description: <br />
+                <br />
+                {job.description}
+              </Description>
+              {mode == "buying" ? (
+                <Description>
+                  Cover Letter: <br />
+                  <br />
+                  {job.cover}
+                </Description>
+              ) : (
+                <></>
+              )}
+            </JobDiv>
+            <PriceAndLevel>
+              <Price>Budget: {job.budget}</Price>
+              <Level>Level: {job.level}</Level>
+            </PriceAndLevel>
+            <JobDiv>
+              <ProjectType>
+                <span>Project Type: </span>
+                {job.type}
+              </ProjectType>
+            </JobDiv>
+            <SkillsAndExpert>
+              <SkillExpert>Skills and Expertise</SkillExpert>
+              {job.skills ? (
+                job.skills.map((skill, index) => {
+                  return <Category>{skill}</Category>;
+                })
+              ) : (
+                <Category>N/A</Category>
+              )}
+              <div style={{ marginTop: 20 }}></div>
+            </SkillsAndExpert>
+            <Activity>
+              <ActJob>Activity on this job</ActJob>
+              <Prop>Proposals: Less than 5</Prop>
+              <Interview>Interviewing: 0</Interview>
+              <Invite>Invites sent: 0</Invite>
+              <Unanswered>Unanswered invites: 0</Unanswered>
+            </Activity>
+          </LargeContainer>
+          <SmallContainer>
+            <FirstContainer>
+              {mode == "selling" ? (
+                <SubmitButton onClick={submitProposal}>
+                  {"Submit Proposal"}
+                </SubmitButton>
+              ) : (
+                <SubmitButton onClick={acceptProposal}>
+                  {"Accept Proposal"}
+                </SubmitButton>
+              )}
+              {mode == "buying" ? (
+                <>
+                  <BookMark onClick={Reject}>Reject</BookMark>
+                  <ChatButton onClick={Chat}>Chat</ChatButton>
+                </>
+              ) : (
+                <></>
+              )}
+              <ToastContainer
+                position="top-center"
+                autoClose={1000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                background="#EE0022"
+              />
+            </FirstContainer>
+            <SecondContainer>
+              <About>About the client</About>
+              <Payement>Payment method not verified</Payement>
+              <Country>Jordan</Country>
+              <Con>
+                <Name>Amman</Name>
+                <Posted>10.34pm</Posted>
+              </Con>
+              <JobPosted>1 job posted</JobPosted>
+              <Jp>
+                <HireRate>0% hire rate,</HireRate>
+                <OpenJob>1 open job</OpenJob>
+              </Jp>
+              <Education>Education</Education>
+              <Member>Member since Mar 18, 2022</Member>
+            </SecondContainer>
+            <ThirdContainer>
+              <JobLink>Job link</JobLink>
+              <InputField
+                value="https://www.upwork.com/jobs/~0164284a27b7bfaa27"
+                disabled
+              />
 
-           <CopyLink>Copy link</CopyLink>
-         </ThirdContainer>
-       </SmallContainer>
-     </Container>
-   </MainContainer>
-   <Footer />
-   </div>
+              <CopyLink>Copy link</CopyLink>
+            </ThirdContainer>
+          </SmallContainer>
+        </Container>
+      </MainContainer>
+      <Footer />
+    </div>
   );
 };
 

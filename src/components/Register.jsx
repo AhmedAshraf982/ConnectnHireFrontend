@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import axios from 'axios';
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Modalbackground = styled.div`
   width: 100%;
@@ -26,7 +26,7 @@ const Container = styled.div`
   overflow-y: auto;
   width: 40%;
   height: 500px;
-  background-color: #7393B3;
+  background-color: #7393b3;
   box-shadow: black 0px 5px 15px;
   display: flex;
   border-radius: 50px;
@@ -113,11 +113,12 @@ const Button = styled.button`
   display: flex;
   margin: 0.8rem auto;
   cursor: pointer;
-  color: #fff;
-  background-color: #0c6ca1;
+  color: #42c2ff;
+  background-color: #effffd;
   &:hover {
     transition: 0.2s all ease-in;
-    background-color: #023958;
+    background-color: #42c2ff;
+    color: #effffd;
   }
 `;
 
@@ -203,31 +204,36 @@ const Register = (props) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   const success = () => {
-    toast("Signed up successfully!")
-  }
+    toast("Signed up successfully!");
+  };
 
   const incorrect = () => {
-    toast("Unfortunately, failed to sign up!")
-  }
+    toast("Unfortunately, failed to sign up!");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     let res;
     res = await axios.post("https://young-cliffs-72209.herokuapp.com/signup", {
-      first, last, username, email, password,
+      first,
+      last,
+      username,
+      email,
+      password,
     });
-      if (res.data == "success") {
-        success();
-        setTimeout(()=>{props.closeModal(false);
-        navigate(`/`)}, 2000)
-      }else{
-        incorrect();
-      }
-  }
+    if (res.data === "success") {
+      success();
+      setTimeout(() => {
+        props.closeModal(false);
+        navigate(`/`);
+      }, 2000);
+    } else {
+      incorrect();
+    }
+  };
 
   return (
     <>
@@ -240,41 +246,46 @@ const Register = (props) => {
           <Heading>Sign Up</Heading>
           <Form onSubmit={handleSubmit}>
             <FormGroup>
-              <InputFirst placeholder="First Name"
-              value={first}
-              onChange={(e) => setFirst(e.target.value)}
-               />
-              <InputLast placeholder="Last Name"
-              value={last}
-              onChange={(e) => setLast(e.target.value)}
+              <InputFirst
+                placeholder="First Name"
+                value={first}
+                onChange={(e) => setFirst(e.target.value)}
+              />
+              <InputLast
+                placeholder="Last Name"
+                value={last}
+                onChange={(e) => setLast(e.target.value)}
               />
             </FormGroup>
-            <InputField placeholder="UserName"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            <InputField
+              placeholder="UserName"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
-            <InputField placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            <InputField
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
-            <InputField placeholder="Password"
-            value={password}
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
+            <InputField
+              placeholder="Password"
+              value={password}
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
             />
-             <Button type="submit">Sign Up</Button>
-             <ToastContainer
-position="top-center"
-autoClose={1000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-background='#EE0022'
-/>
+            <Button type="submit">Sign Up</Button>
+            <ToastContainer
+              position="top-center"
+              autoClose={1000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              background="#EE0022"
+            />
           </Form>
           <Text>
             Already An Account? <Link>Sign In</Link>
