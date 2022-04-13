@@ -53,7 +53,7 @@ function App() {
       />
       <MessageDropDown />
 
-      <Header username={user.username} />
+      <Header />
 
       <Card
         username={user.username}
