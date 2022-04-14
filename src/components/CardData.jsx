@@ -162,6 +162,13 @@ const CardData = (props) => {
             ? props.job.description
             : props.job.cover}
         </ReadMore>
+        <ButtonGroup>
+        {
+          props.job.skills.map((skill)=>{
+            <ButtonSkill skill={skill} />
+          })
+        }
+        </ButtonGroup>
       </Card>
     </>
   );
