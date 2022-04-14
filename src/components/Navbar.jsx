@@ -227,6 +227,7 @@ const Navbar = (props) => {
       let res = await axios.put(
         `https://young-cliffs-72209.herokuapp.com/changeMode/${props.username}`
       );
+      console.log(res.data)
       if (res.data === "success") {
         navigate(`/dashboard/${props.username}`, { replace: true });
       }
@@ -323,9 +324,8 @@ const Navbar = (props) => {
               </>
             ) : (
               <Button
-                onClick={() => {
-                  changeMode();
-                }}
+                onClick={
+                  changeMode}
               >
                 {props.mode === "buying"
                   ? "Turn to a freelancer"
