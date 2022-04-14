@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { Navigate, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Modalbackground = styled.div`
   width: 100%;
@@ -26,7 +26,7 @@ const Container = styled.div`
   overflow-y: auto;
   width: 30%;
   height: 500px;
-  background-color: #7393B3;;
+  background-color: #7393b3;
   box-shadow: black 0px 5px 15px;
   display: flex;
   border-radius: 50px;
@@ -107,10 +107,11 @@ const Button = styled.button`
   margin: 0.8rem auto;
   cursor: pointer;
   color: #fff;
-  background-color: #0c6ca1;
+  background-color: #42c2ff;
   &:hover {
     transition: 0.2s all ease-in;
-    background-color: #023958;
+    background-color: #effffd;
+    color: #42c2ff;
   }
 `;
 
@@ -128,38 +129,46 @@ const Link = styled.a`
   }
 `;
 const Login = (props) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  
+
   const success = () => {
-    toast("Logged in successfully!")
-  }
+    toast("Logged in successfully!");
+  };
 
   const incorrect = () => {
-    toast("Invalid username or password!")
-  }
+    toast("Invalid username or password!");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     let res;
     if (username.trim() && password.trim()) {
       if (username.charAt("@")) {
-        res = await axios.post("https://young-cliffs-72209.herokuapp.com/login", {
-          username: username,
-          password,
-        });
+        res = await axios.post(
+          "https://young-cliffs-72209.herokuapp.com/login",
+          {
+            username: username,
+            password,
+          }
+        );
       } else {
-        res = await axios.post("https://young-cliffs-72209.herokuapp.com/login", {
-          username,
-          password,
-        });
+        res = await axios.post(
+          "https://young-cliffs-72209.herokuapp.com/login",
+          {
+            username,
+            password,
+          }
+        );
       }
-      if(res.data == "success"){
+      if (res.data === "success") {
         success();
-        setTimeout(()=>{props.closeModal(false);
-        navigate(`/dashboard/${username}`)}, 2000)
-      }else{
+        setTimeout(() => {
+          props.closeModal(false);
+          navigate(`/dashboard/${username}`);
+        }, 2000);
+      } else {
         incorrect();
       }
     }
@@ -167,9 +176,7 @@ const Login = (props) => {
 
   return (
     <>
-      <Modalbackground
-        isOpen={props.openSignin}
-      >
+      <Modalbackground isOpen={props.openSignin}>
         <Container>
           <CloseButton onClick={() => props.closeModal(false)}>X</CloseButton>
           <Heading>Sign In</Heading>
@@ -187,17 +194,17 @@ const Login = (props) => {
             ></InputField>
             <Button type="submit">Sign In</Button>
             <ToastContainer
-position="top-center"
-autoClose={1000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-background='#EE0022'
-/>
+              position="top-center"
+              autoClose={1000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              background="#EE0022"
+            />
           </Form>
 
           <Text>

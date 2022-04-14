@@ -6,9 +6,9 @@ import { FaBars } from "react-icons/fa";
 import { AiFillSetting } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
 import MessageDropDown from "./MessageDropDown";
-import NotificationDropDown from './NotificationDropDown'
-import axios from 'axios';
-import logo from './logo.png'
+import NotificationDropDown from "./NotificationDropDown";
+import axios from "axios";
+import logo from "./logo.png";
 
 const Nav = styled.nav`
   height: 80px;
@@ -82,7 +82,7 @@ const NavItem = styled.li`
 `;
 
 const NavLinks = styled(LinkS)`
-  color: #0c6ca1;
+  color: #42c2ff;
   display: flex;
   align-items: center;
   padding: 0 1rem;
@@ -112,9 +112,9 @@ const NavButton = styled.div`
 
 const Button = styled.button`
   outline: none;
-  background-color: #fff;
+  background-color: #effffd;
   font-size: 16px;
-  color: #0c6ca1;
+  color: #42c2ff;
   margin-left: 1rem;
   padding: 10px 22px;
   border-radius: 50px;
@@ -124,8 +124,8 @@ const Button = styled.button`
   text-decoration: none;
   &:hover {
     transition: all 0.2s ease-in-out;
-    background-color: #0c6ca1;
-    color: #fff;
+    background-color: #42c2ff;
+    color: #effffd;
   }
 `;
 
@@ -142,7 +142,7 @@ const DropDown = styled.div`
   position: absolute;
   top: 4rem;
   right: 10rem;
-  background-color: #7393B3;
+  background-color: #7393b3;
   border-radius: 5px;
   border: 2px solid #0c6ca1;
   width: auto;
@@ -192,61 +192,76 @@ const Dot = styled.p`
 `;
 
 const Navbar = (props) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [dropshow, setDropShow] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [read, setRead] = useState("");
   const [notiRead, setNotiRead] = useState("");
 
-  useEffect(async ()=>{
-    let response = await axios.get(`https://young-cliffs-72209.herokuapp.com/unreadMsg/${props.username}`)
-    setRead(response.data)
-    response = await axios.get(`https://young-cliffs-72209.herokuapp.com/unreadNotification/${props.username}`);
-    setNotiRead(response.data);
-  })
+  useEffect(() => {
+    async function fetchData() {
+      let response = await axios.get(
+        `https://young-cliffs-72209.herokuapp.com/unreadMsg/${props.username}`
+      );
+      setRead(response.data);
+      response = await axios.get(
+        `https://young-cliffs-72209.herokuapp.com/unreadNotification/${props.username}`
+      );
+      setNotiRead(response.data);
+    }
+    fetchData();
+  }, [props.username]);
 
   const changeMode = async () => {
-    let res = await axios.put(`https://young-cliffs-72209.herokuapp.com/changeMode/${props.username}`)
-    if(res.data == "success"){
-      navigate(`/dashboard/${props.username}`)
+    let res = await axios.put(
+      `https://young-cliffs-72209.herokuapp.com/changeMode/${props.username}`
+    );
+    if (res.data === "success") {
+      navigate(`/dashboard/${props.username}`, { replace: true });
     }
-  }
+  };
 
-  const FindJob = async () =>{
-    console.log("find job")
-    if(props.mode == "buying"){
-      let res = await axios.put(`https://young-cliffs-72209.herokuapp.com/changeMode/${props.username}`)
-      if(res.data == "success"){
-        navigate(`/dashboard/${props.username}`)
+  const FindJob = async () => {
+    console.log("find job");
+    if (props.mode === "buying") {
+      let res = await axios.put(
+        `https://young-cliffs-72209.herokuapp.com/changeMode/${props.username}`
+      );
+      if (res.data === "success") {
+        navigate(`/dashboard/${props.username}`, { replace: true });
       }
     }
-  }
+  };
 
   const about = () => {
-    navigate(`/About/${props.username}`)
-  }
+    navigate(`/About/${props.username}`);
+  };
 
   const PostJob = () => {
-    navigate(`/postJob/${props.username}`)
-  }
+    navigate(`/postJob/${props.username}`);
+  };
 
   const settings = () => {
-    navigate(`/settings/${props.username}`)
-  }
+    navigate(`/settings/${props.username}`);
+  };
   const logout = () => {
     setDropShow(!dropshow);
-    navigate(`/`)
-  }
-  const markNotificationsRead = () =>{
-    let response = axios.put(`https://young-cliffs-72209.herokuapp.com/markNotificationsRead/${props.username}`);
-  }
+    navigate(`/`);
+  };
+  const markNotificationsRead = () => {
+    let response = axios.put(
+      `https://young-cliffs-72209.herokuapp.com/markNotificationsRead/${props.username}`
+    );
+  };
   return (
     <>
-      <Nav onClick={() => {setShowMessage(false)
-      setShowNotifications(false)  
-    }
-    }>
+      <Nav
+        onClick={() => {
+          setShowMessage(false);
+          setShowNotifications(false);
+        }}
+      >
         <NavbarContainer>
           <Logo src={logo} alt="logo" />
           <MobileIcon onClick={props.toggle}>
@@ -254,99 +269,105 @@ const Navbar = (props) => {
           </MobileIcon>
           <NavMenu>
             <NavItem>
-              <NavLinks onClick={FindJob} >Find Job</NavLinks>
+              <NavLinks onClick={FindJob}>Find Job</NavLinks>
             </NavItem>
             <NavItem>
-              <NavLinks onClick={PostJob} >Post Job</NavLinks>
+              <NavLinks onClick={PostJob}>Post Job</NavLinks>
             </NavItem>
             <NavItem>
-              <NavLinks onClick={() => {setShowMessage(!showMessage)
-              setShowNotifications(showNotifications)
-              }}>
-                 Message
-                {read=="unread" ? <Dot /> : ""}
+              <NavLinks
+                onClick={() => {
+                  setShowMessage(!showMessage);
+                  setShowNotifications(showNotifications);
+                }}
+              >
+                Message
+                {read == "unread" ? <Dot /> : ""}
               </NavLinks>
             </NavItem>
             <NavItem>
-              <NavLinks onClick={() => {setShowNotifications(!showNotifications)
-              setShowMessage(showMessage)
-              markNotificationsRead()
-              }}>
+              <NavLinks
+                onClick={() => {
+                  setShowNotifications(!showNotifications);
+                  setShowMessage(showMessage);
+                  markNotificationsRead();
+                }}
+              >
                 Notifications
-                {notiRead=="unread" ? <Dot /> : ""}
+                {notiRead === "unread" ? <Dot /> : ""}
               </NavLinks>
             </NavItem>
             <NavItem>
-              <NavLinks onClick={about}>
-              About Us
-              </NavLinks>
+              <NavLinks onClick={about}>About Us</NavLinks>
             </NavItem>
           </NavMenu>
           <NavButton>
-            {
-              !props.username ?
-              
+            {!props.username ? (
               <>
+                <Button
+                  onClick={() => {
+                    props.closeLoginModal(true);
+                  }}
+                >
+                  Sign In
+                </Button>
+                <Button
+                  onClick={() => {
+                    props.closeSignupModal(true);
+                  }}
+                >
+                  Sign Up
+                </Button>
+              </>
+            ) : (
               <Button
-              onClick={() => {
-                props.closeLoginModal(true);
-              }}
-            >
-              Sign In
-            </Button>
-            <Button
-              onClick={() => {
-                props.closeSignupModal(true);
-              }}
-            >
-              Sign Up
-            </Button>
-            </>
-              
-            :
-            <Button
-              onClick={() => {
-                changeMode();
-              }}
-            >
-              {props.mode == "buying" ? "Turn to a freelancer" : "Turn to a client"}
-            </Button>
-            }
-            
-            {
-              props.username &&  <ImageIcon
-              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80"
-              onClick={() => {
-                setDropShow(!dropshow);
-                setShowNotifications(false);
-                setShowMessage(false);
-              }}
-            />
-            }
+                onClick={() => {
+                  changeMode();
+                }}
+              >
+                {props.mode === "buying"
+                  ? "Turn to a freelancer"
+                  : "Turn to a client"}
+              </Button>
+            )}
+
+            {props.username && (
+              <ImageIcon
+                src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80"
+                onClick={() => {
+                  setDropShow(!dropshow);
+                  setShowNotifications(false);
+                  setShowMessage(false);
+                }}
+              />
+            )}
           </NavButton>
         </NavbarContainer>
         {dropshow && (
           <DropDown>
-          <UserName>{props.firstname}</UserName>
-          <ListMenu>
-            <List  onClick={settings}>
-              <SettingLogo>
-                <AiFillSetting />
-              </SettingLogo>
-              Settings
-            </List>
-            <List  onClick={logout}>
-              <LogOutLogo>
-                <BiLogOut />
-              </LogOutLogo>
-              LogOut
-            </List>
-          </ListMenu>
-        </DropDown>
+            <UserName>{props.firstname}</UserName>
+            <ListMenu>
+              <List onClick={settings}>
+                <SettingLogo>
+                  <AiFillSetting />
+                </SettingLogo>
+                Settings
+              </List>
+              <List onClick={logout}>
+                <LogOutLogo>
+                  <BiLogOut />
+                </LogOutLogo>
+                LogOut
+              </List>
+            </ListMenu>
+          </DropDown>
         )}
       </Nav>
       <MessageDropDown showMessage={showMessage} username={props.username} />
-      <NotificationDropDown showNotifications={showNotifications} username={props.username} />
+      <NotificationDropDown
+        showNotifications={showNotifications}
+        username={props.username}
+      />
     </>
   );
 };

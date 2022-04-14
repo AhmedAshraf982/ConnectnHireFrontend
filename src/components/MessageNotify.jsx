@@ -3,7 +3,6 @@ import React from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-
 const MessageBorder = styled.div`
   width: 100%;
   height: 50px;
@@ -48,27 +47,30 @@ const Dot = styled.p`
   background-color: white;
   border-radius: 50%;
   display: inline-block;
-  margin-left: 10px
+  margin-left: 10px;
 `;
 
 const MessageNotify = (props) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const getMsg = (msg) => {
-    if(msg.length > 25){
-      msg = msg.slice(0, 25)
+    if (msg.length > 25) {
+      msg = msg.slice(0, 25);
       msg += "...";
     }
     return msg;
-  }
+  };
   const markAsUnread = async () => {
-    let response = await axios.put(`https://young-cliffs-72209.herokuapp.com/markAsRead/${props.username}/${props.chat.label}`);
-  }
+    let response = await axios.put(
+      `https://young-cliffs-72209.herokuapp.com/markAsRead/${props.username}/${props.chat.label}`
+    );
+  };
   return (
     <MessageBorder
-    onClick={ () => {
-      markAsUnread();
-      navigate(`/messages/${props.username}/${props.chat.label}`)
-    }}>
+      onClick={() => {
+        markAsUnread();
+        navigate(`/messages/${props.username}/${props.chat.label}`);
+      }}
+    >
       <Image
         src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80"
         alt="ClientImage"
@@ -77,7 +79,7 @@ const MessageNotify = (props) => {
         <ClientName>{props.chat.label}</ClientName>
         <MessageName>
           {props.chat.msg ? getMsg(props.chat.msg) : "No new message to show"}
-          {props.chat.read == false ? <Dot /> : ""}
+          {props.chat.read === false ? <Dot /> : ""}
         </MessageName>
       </MinContainer>
     </MessageBorder>

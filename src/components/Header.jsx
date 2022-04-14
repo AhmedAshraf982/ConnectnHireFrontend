@@ -1,53 +1,58 @@
-import React,{useState, useEffect} from "react";
-import styled from "styled-components";
+import React from "react";
+import { Carousel } from "react-bootstrap";
+import img1 from "../images/image1.jpeg";
+import img2 from "../images/image2.jpeg";
+import img3 from "../images/image3.jpeg";
+import img4 from "../images/image4.jpeg";
 
-const Container = styled.div`
-  width: 60%;
-  height: 200px;
-  margin: 2rem 8.5rem 2rem;
-  border: 1px solid #0c6ac1;
-  background-color: #7393B3;
-  border-radius: 5px;
-  @media screen and (max-width: 768px) {
-    display: none;
-    height: 0;
-  }
-`;
-
-const Date = styled.p`
-  margin: 2rem 2rem 0 2rem;
-`;
-
-const Timing = styled.p`
-  margin: 0 2rem 0 2rem;
-`;
-
-const UserName = styled.p`
-  margin: 0 2rem 0 2rem;
-`;
-
-const Header = (props) => {
-  const [date, setDate] = useState(new window.Date());
-  useEffect(() => {
-    setDate(new window.Date());
-  }, [new window.Date()]);
+const Header = () => {
+  const Data = [
+    {
+      src: img1,
+      alt: "img1",
+      head: "Image 1",
+      Para: "Hellor World ",
+    },
+    {
+      src: img2,
+      alt: "img2",
+      head: "Image 1",
+      Para: "Hellor World ",
+    },
+    {
+      src: img3,
+      alt: "img3",
+      head: "Image 1",
+      Para: "Hellor World ",
+    },
+    {
+      src: img4,
+      alt: "img4",
+      head: "Image 1",
+      Para: "Hellor World ",
+    },
+  ];
+  const ImageStyle = {
+    height: "300px",
+    objectFit: "cover",
+  };
   return (
-    <>
-      <Container>
-        <Date style={{color: "white"}}>
-          {date.toLocaleString("default", { month: "long" })} {date.getDate()},{" "}
-          {date.getFullYear()}
-        </Date>
-        <Timing style={{color: "white"}}>
-          {date.getHours() >= 0 && date.getHours() < 12
-            ? "Good Morning"
-            : date.getHours() >= 12 && date.getHours() <= 17
-            ? "Good Afternoon!"
-            : "Good Evening"}
-        </Timing>
-        <UserName style={{marginTop: 30, color: "black", fontWeight:"bold"}}>{props.username}</UserName>
-      </Container>
-    </>
+    <Carousel fade={true} pause={false}>
+      {Data.map((data, index) => (
+        <Carousel.Item interval={2000} key={index}>
+          <img
+            className="d-block w-100"
+            style={ImageStyle}
+            src={data.src}
+            alt={data.alt}
+          />
+          <Carousel.Caption>
+            <h3>{data.head}</h3>
+            <p>{data.Para}</p>
+          </Carousel.Caption>
+        </Carousel.Item>
+      ))}
+    </Carousel>
   );
 };
 

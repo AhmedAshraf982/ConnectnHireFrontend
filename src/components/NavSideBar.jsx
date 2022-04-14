@@ -4,7 +4,7 @@ import { FaTimes } from "react-icons/fa";
 import { Link as LinkS } from "react-scroll";
 import { Link as LinkR } from "react-router-dom";
 import MessageDropDown from "./MessageDropDown";
- 
+
 const SidebarContainer = styled.aside`
   position: fixed;
   z-index: 999;
@@ -25,7 +25,7 @@ const SidebarContainer = styled.aside`
 `;
 
 const CloseIcon = styled(FaTimes)`
-  color: #023958;
+  color: #42c2ff;
 `;
 
 const Icon = styled.div`
@@ -50,7 +50,7 @@ const SidebarLink = styled(LinkS)`
   text-decoration: none;
   list-style: none;
   text-decoration: none;
-  color: #0c6ca1;
+  color: #42c2ff;
   cursor: pointer;
   &:hover {
     color: #023958;
@@ -77,9 +77,9 @@ const SideBtnWrap = styled.div`
 
 const SidebarRoute = styled.button`
   border-radius: 50px;
-  background-color: #fff;
   padding: 16px 64px;
-  color: #0c6ca1;
+  color: #42c2ff;
+  background-color: #effffd;
   font-size: 1.5rem;
   outline: none;
   border: none;
@@ -88,8 +88,8 @@ const SidebarRoute = styled.button`
   margin-bottom: 1rem;
   &:hover {
     transition: 0.2s all ease-in-out;
-    background-color: #023958;
-    color: black;
+    background-color: #42c2ff;
+    color: #effffd;
   }
 `;
 

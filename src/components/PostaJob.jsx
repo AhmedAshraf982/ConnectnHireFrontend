@@ -1,19 +1,18 @@
 import styled from "styled-components";
 import React, { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Header from "./Header";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Container = styled.div`
   width: 80%;
   height: auto;
   min-height: 80%;
-  background-color: #7393B3;
+  background-color: #7393b3;
   display: flex;
   flex-direction: column;
   margin: 1rem 5rem 0 auto;
@@ -26,7 +25,7 @@ const Container = styled.div`
 const Heading = styled.h5`
   text-align: left;
   font-size: 1.5rem;
-  background-color: #28282B;
+  background-color: #28282b;
   color: white;
   padding: 1rem;
   @media screen and (max-width: 768px) {
@@ -141,21 +140,21 @@ const CancelButton = styled.button`
 `;
 
 const PostaJob = () => {
-  const {username} = useParams();
+  const { username } = useParams();
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("")
-  const [time, setTime] = useState("")
-  const [level, setLevel] = useState("")
-  const [budget, setBudget] = useState("")
-  const [skills, setSkills] = useState("")
+  const [description, setDescription] = useState("");
+  const [time, setTime] = useState("");
+  const [level, setLevel] = useState("");
+  const [budget, setBudget] = useState("");
+  const [skills, setSkills] = useState("");
   const navigate = useNavigate();
-  console.log(username)
+  console.log(username);
 
   const cancel = () => {
-    navigate(`/dashboard/${username}`)
-  }
+    navigate(`/dashboard/${username}`);
+  };
   const postJob = async () => {
-    let skills_ = skills.split(",")
+    let skills_ = skills.split(",");
     let obj = {
       client: username,
       title,
@@ -163,44 +162,45 @@ const PostaJob = () => {
       time,
       level,
       budget,
-      skills: skills_
-    }
-    let res =  await axios.post("https://young-cliffs-72209.herokuapp.com/post", obj);
-    console.log(res)
-    if(res.data == "success"){
+      skills: skills_,
+    };
+    let res = await axios.post(
+      "https://young-cliffs-72209.herokuapp.com/post",
+      obj
+    );
+    console.log(res);
+    if (res.data === "success") {
       success();
-        setTimeout(()=>{
-          navigate(`/dashboard/${username}`)}, 2000)
-    }else{
+      setTimeout(() => {
+        navigate(`/dashboard/${username}`);
+      }, 2000);
+    } else {
       incorrect();
     }
-  }
+  };
   const success = () => {
-    toast("Job has been posted successfully!")
-  }
+    toast("Job has been posted successfully!");
+  };
 
   const incorrect = () => {
-    toast("There was an error while posting the job!")
-  }
+    toast("There was an error while posting the job!");
+  };
   return (
-    <div style={{backgroundColor:"#28282B"}}>
-    <Navbar
-    username = {username}
-    mode = {"buying"}
-    />
-    <Header 
-    username = {username}
-    mode = {"buying"}
-    />
+    <div style={{ backgroundColor: "#effffd" }}>
+      <Navbar username={username} mode={"buying"} />
+      <Header username={username} mode={"buying"} />
       <Container>
         <Heading>Post a Job</Heading>
         <MinContainer>
           <FormGroup>
             <Title>Title Of Job</Title>
-            <InputField type="text" required
-             placeholder="e.g Python Script" 
-             onChange={(e) => setTitle(e.target.value)}
-             value={title}/>
+            <InputField
+              type="text"
+              required
+              placeholder="e.g Python Script"
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
+            />
           </FormGroup>
           <FormGroup1>
             {/* <FG>
@@ -215,57 +215,66 @@ const PostaJob = () => {
             </FG> */}
             <FG>
               <Title>Level</Title>
-              <InputField type="text" 
-              onChange={(e) => setLevel(e.target.value)}
-              required placeholder="e.g Expert"
-              value={level}
+              <InputField
+                type="text"
+                onChange={(e) => setLevel(e.target.value)}
+                required
+                placeholder="e.g Expert"
+                value={level}
               />
             </FG>
             <FG>
               <Title>Budget</Title>
-              <InputField type="text"
-              value={budget}
-              onChange={(e) => setBudget(e.target.value)}
-               required placeholder="e.g $5.00" />
+              <InputField
+                type="text"
+                value={budget}
+                onChange={(e) => setBudget(e.target.value)}
+                required
+                placeholder="e.g $5.00"
+              />
             </FG>
           </FormGroup1>
           <FormGroup>
             <Title>Description</Title>
-            <InputText required 
-            onChange={(e) => setDescription(e.target.value)}
-            value={description}
+            <InputText
+              required
+              onChange={(e) => setDescription(e.target.value)}
+              value={description}
             />
           </FormGroup>
           <FormGroup>
             <Title>Skills (comma separated)</Title>
-            <InputText required 
-            onChange={(e) => setSkills(e.target.value)}
-            value={skills}
+            <InputText
+              required
+              onChange={(e) => setSkills(e.target.value)}
+              value={skills}
             />
           </FormGroup>
           <FormGroup>
             <Title>Time (days)</Title>
-            <InputField type="text" required 
-            value={time}
-            onChange={(e) => setTime(e.target.value)}
+            <InputField
+              type="text"
+              required
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
             />
             {/* <Title>End Date</Title>
             <InputField type="datetime-local" required /> */}
           </FormGroup>
-          <ButtonGroup >
+          <ButtonGroup>
             <PostButton onClick={postJob}>Post</PostButton>
             <ToastContainer
-position="top-center"
-autoClose={1000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-background='#EE0022'
-/>
+              position="top-center"
+              autoClose={1000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              background="#EE0022"
+            />
             <CancelButton onClick={cancel}>Cancel</CancelButton>
           </ButtonGroup>
         </MinContainer>

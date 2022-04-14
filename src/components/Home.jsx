@@ -12,49 +12,55 @@ import UserDashBoard from "./UserDashBoard";
 import NavSideBar from "./NavSideBar";
 import MessageDropDown from "./MessageDropDown";
 import JobSubmitPage from "./JobSubmitPage";
-import axios from 'axios';
+import axios from "axios";
 
 function App() {
   const [openSignin, setOpenSignin] = useState(false);
   const [openSignup, setOpenSignup] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [user, setUser] = useState({}) 
+  const [user, setUser] = useState({});
 
   let { username } = useParams();
-  useEffect( async ()=>{
-    let res = await axios.get(`https://young-cliffs-72209.herokuapp.com/user/${username}`)
-    setUser(res.data)
-  }, [user])
+  useEffect(() => {
+    async function fetchData() {
+      let res = await axios.get(
+        `https://young-cliffs-72209.herokuapp.com/user/${username}`
+      );
+      setUser(res.data);
+    }
+    fetchData();
+  }, [username]);
 
   const toggle = () => {
     setIsOpen(!isOpen);
   };
   return (
-    <div style={{backgroundColor:"#28282B"}}>
-        <Navbar
-          closeLoginModal={setOpenSignin}
-          closeSignupModal={setOpenSignup}
-          toggle={toggle}
-          username={user.username}
-          mode = {user.mode}
-          firstname={user.first}
-        />
+    <div style={{ backgroundColor: "#EFFFFD" }}>
+      <Navbar
+        closeLoginModal={setOpenSignin}
+        closeSignupModal={setOpenSignup}
+        toggle={toggle}
+        username={user.username}
+        mode={user.mode}
+        firstname={user.first}
+      />
 
-        <NavSideBar
-          isOpen={isOpen}
-          toggle={toggle}
-          closeLoginModal={setOpenSignin}
-          closeSignupModal={setOpenSignup}
-        />
-        <MessageDropDown />
+      <NavSideBar
+        isOpen={isOpen}
+        toggle={toggle}
+        closeLoginModal={setOpenSignin}
+        closeSignupModal={setOpenSignup}
+      />
+      <MessageDropDown />
 
-        <Header username={user.username} />
-       
-        <Card username={user.username}
-                mode = {!user.mode ? "selling" : user.mode}
-          />
-         
-        <Footer />
+      <Header />
+
+      <Card
+        username={user.username}
+        mode={!user.mode ? "selling" : user.mode}
+      />
+
+      <Footer />
 
       <Login closeModal={setOpenSignin} openSignin={openSignin} />
       <Register closeModal={setOpenSignup} openSignup={openSignup} />

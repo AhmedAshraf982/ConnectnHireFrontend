@@ -3,11 +3,11 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import ButtonSkill from "./ButtonSkill";
 import Navbar from "./Navbar";
-import Header from './Header'
-import axios from 'axios';
-import { Navigate, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import Header from "./Header";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Title = styled.h5`
   display: flex;
@@ -31,7 +31,7 @@ const JobDetails = styled.div`
   border: 1px solid #0c6ac1;
   border-radius: 5px;
   margin: auto;
-  background-color: #7393B3;
+  background-color: #7393b3;
   @media screen and (max-width: 768px) {
     border-top: 1px solid #0c6ac1;
     border-bottom: 1px solid #0c6ac1;
@@ -127,7 +127,7 @@ const Length = styled.div`
   padding-bottom: 1rem;
 `;
 const SkillAndExpert = styled.div`
-  background-color: #7393B3;
+  background-color: #7393b3;
   display: flex;
   flex-direction: column;
   justify-items: center;
@@ -141,7 +141,7 @@ const SkillAndExpert = styled.div`
   }
 `;
 const SkillDiv = styled.div`
-  background-color: #7393B3;
+  background-color: #7393b3;
   display: flex;
   margin: 0.2rem 4rem 2rem 4rem;
   overflow-x: scroll;
@@ -158,7 +158,7 @@ const SubmitProp = styled.div`
   margin: 2rem auto 0 auto;
   border: 1px solid #0c6ac1;
   border-radius: 5px;
-  background-color: #7393B3;
+  background-color: #7393b3;
   @media screen and (max-width: 768px) {
     border-radius: 0px;
     width: 100%;
@@ -275,69 +275,75 @@ const CancelButton = styled.button`
 `;
 
 const SubmitProposal = () => {
-  const navigate = useNavigate()
-  const {username, id} = useParams();
+  const navigate = useNavigate();
+  const { username, id } = useParams();
   const [mode, setMode] = useState("");
   const [budget, setBudget] = useState("");
   const [time, setTime] = useState("");
   const [cover, setCover] = useState("");
-  let [job, setJob] = useState({})
+  let [job, setJob] = useState({});
 
   const submitProposal = async () => {
-    job["freelancer"] = username
-    job["delivery"] = time
-    job["budget"] = budget
-    job["cover"] = cover
-    let application = job
-    let id = application["_id"]
-    delete application["_id"]
-    application["job_id"] = id
-    console.log(application)
-    console.log(job)
-    let res = await axios.post(`https://young-cliffs-72209.herokuapp.com/apply`, application);
-    if (res.data == "success") {
+    job["freelancer"] = username;
+    job["delivery"] = time;
+    job["budget"] = budget;
+    job["cover"] = cover;
+    let application = job;
+    let id = application["_id"];
+    delete application["_id"];
+    application["job_id"] = id;
+    console.log(application);
+    console.log(job);
+    let res = await axios.post(
+      `https://young-cliffs-72209.herokuapp.com/apply`,
+      application
+    );
+    if (res.data === "success") {
       success();
-      setTimeout(()=>{
-      navigate(`/dashboard/${username}`)}, 2000)
-    }else{
+      setTimeout(() => {
+        navigate(`/dashboard/${username}`);
+      }, 2000);
+    } else {
       incorrect();
     }
-  }
-  useEffect(async ()=>{
-    let res = await axios.get(`https://young-cliffs-72209.herokuapp.com/user/${username}`)
-    setMode(res.data.mode)
-    res = await axios.get(`https://young-cliffs-72209.herokuapp.com/job/${id}`)
-    setJob(res.data)
-  }, [mode, job])
+  };
+  useEffect(() => {
+    async function fetchData() {
+      let res = await axios.get(
+        `https://young-cliffs-72209.herokuapp.com/user/${username}`
+      );
+      setMode(res.data.mode);
+      res = await axios.get(
+        `https://young-cliffs-72209.herokuapp.com/job/${id}`
+      );
+      setJob(res.data);
+    }
+    fetchData();
+  }, [username, id]);
 
   const success = () => {
-    toast("Proposal submitted successfully!")
-  }
+    toast("Proposal submitted successfully!");
+  };
 
   const incorrect = () => {
-    toast("Unfortunately, failed to submit proposal!")
-  }
+    toast("Unfortunately, failed to submit proposal!");
+  };
   return (
-    <div style={{backgroundColor:"#28282B"}}>
-      <Navbar 
-      username={username}
-      mode={mode}
-      />
-      <Header username={username}/>
+    <div style={{ backgroundColor: "#EFFFFD" }}>
+      <Navbar username={username} mode={mode} />
+      <Header username={username} />
       <JobDetails>
         <Heading>
           <p>Job Details</p>
         </Heading>
         <JobInfo>
           <JobDesc>
-          <Title>{job.title}</Title>
+            <Title>{job.title}</Title>
             <Divi>
               <Category>{job.category}</Category>
               <Posted>Posted {job.date}</Posted>
             </Divi>
-            <Desc>
-              {job.description}
-            </Desc>
+            <Desc>{job.description}</Desc>
           </JobDesc>
           <JobType>
             <Level>
@@ -346,37 +352,37 @@ const SubmitProposal = () => {
             <Hour>
               <p>Budget: {job.budget}</p>
             </Hour>
-            <Length>
-            
-            </Length>
+            <Length></Length>
           </JobType>
         </JobInfo>
         <SkillAndExpert>
           <p>Skill And Expertise</p>
           <SkillDiv>
-            {
-              job.skills ? 
-              job.skills.map((skill, index)=>{
-                return(
-                  <ButtonSkill skill={skill}/>
-                )
+            {job.skills ? (
+              job.skills.map((skill, index) => {
+                return <ButtonSkill skill={skill} />;
               })
-              :<></>
-            }
+            ) : (
+              <></>
+            )}
           </SkillDiv>
         </SkillAndExpert>
       </JobDetails>
       <SubmitProp>
         <HourRate>
           <p>Your Budget:</p>
-          <InputField placeholder="$5.00"
+          <InputField
+            placeholder="$5.00"
             value={budget}
             onChange={(e) => setBudget(e.target.value)}
           />
         </HourRate>
         <CoverLetter>
           <p>Cover Letter</p>
-          <InputCover rows="5" cols="100" required 
+          <InputCover
+            rows="5"
+            cols="100"
+            required
             value={cover}
             onChange={(e) => setCover(e.target.value)}
           />
@@ -388,17 +394,17 @@ const SubmitProposal = () => {
         <GroupButton>
           <SubmitButton onClick={submitProposal}>Submit Proposal</SubmitButton>
           <ToastContainer
-position="top-center"
-autoClose={1000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-background='#EE0022'
-/>
+            position="top-center"
+            autoClose={1000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            background="#EE0022"
+          />
           <CancelButton>Cancel</CancelButton>
         </GroupButton>
       </SubmitProp>

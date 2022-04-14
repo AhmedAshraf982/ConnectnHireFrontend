@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import TypesButton from "./TypesButton";
-import axios from 'axios';
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Card = styled.div`
   height: auto;
@@ -11,11 +9,11 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   justify-items: center;
-  background-color: #A9A9A9;
+  background-color: #b8fff9;
   border-top: 1px solid rgba(0, 0, 50, 0.2);
   cursor: pointer;
   &:hover {
-    background-color: #7393B3;
+    background-color: #b8fff1;
   }
 `;
 
@@ -75,7 +73,7 @@ const Level = styled.p`
   font-size: 0.9rem;
 `;
 const Budget = styled.p`
-color: #0c6ca1;
+  color: #0c6ca1;
   &:hover {
     color: black;
   }
@@ -84,7 +82,7 @@ color: #0c6ca1;
   font-size: 0.9rem;
 `;
 const PostedTime = styled.p`
-color: #0c6ca1;
+  color: #0c6ca1;
   &:hover {
     color: black;
   }
@@ -93,30 +91,30 @@ color: #0c6ca1;
   font-size: 0.9rem;
 `;
 
-const ButtonGroup = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 1rem 2rem;
-  @media screen and (max-width: 950px) {
-    overflow-x: scroll;
-    padding: 10px;
-  }
-`;
+// const ButtonGroup = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   align-items: center;
+//   margin: 1rem 2rem;
+//   @media screen and (max-width: 950px) {
+//     overflow-x: scroll;
+//     padding: 10px;
+//   }
+// `;
 
-const Skill = styled.h4``;
+// const Skill = styled.h4``;
 
-const Category = styled.h4``;
+// const Category = styled.h4``;
 
 const ReadMore = ({ children }) => {
   const text = children;
 
   const [isShow, setIsShow] = useState(true);
   let result;
-  if(text){
+  if (text) {
     result = isShow ? text.slice(0, 400) : text;
   }
-  
+
   const toggleisShow = () => {
     setIsShow(!isShow);
   };
@@ -132,24 +130,34 @@ const ReadMore = ({ children }) => {
 };
 
 const CardData = (props) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const navigateToJob = () => {
-    if(props.status == "current" && props.mode == "selling"){
-      navigate(`/submitJob/${props.username}/${props.job._id}`)
-    }else if (props.status == "available"){
-      if(props.mode == "selling"){
-        navigate(`/job/${props.username}/${props.job._id}`)
-      }else{
-        navigate(`/application/${props.username}/${props.job._id}`)
+    if (props.status === "current" && props.mode === "selling") {
+      navigate(`/submitJob/${props.username}/${props.job._id}`, {
+        replace: true,
+      });
+    } else if (props.status === "available") {
+      if (props.mode === "selling") {
+        navigate(`/job/${props.username}/${props.job._id}`, {
+          replace: true,
+        });
+      } else {
+        navigate(`/application/${props.username}/${props.job._id}`, {
+          replace: true,
+        });
       }
-    }else if(props.status == "delivered" && props.mode == "buying"){
-      navigate(`/viewSubmission/${props.username}/${props.job._id}`)
+    } else if (props.status === "delivered" && props.mode === "buying") {
+      navigate(`/viewSubmission/${props.username}/${props.job._id}`, {
+        replace: true,
+      });
     }
-  }
+  };
   return (
     <>
       <Card onClick={navigateToJob}>
-      <Title>{props.mode == "selling" ? props.job.client : props.job.freelancer}</Title>
+        <Title>
+          {props.mode === "selling" ? props.job.client : props.job.freelancer}
+        </Title>
         <Title>{props.job.title}</Title>
         <List>
           <PriceType>Fixed-price</PriceType>
@@ -157,13 +165,13 @@ const CardData = (props) => {
           <Budget>Est.Budget: {props.job.budget}</Budget>
           <PostedTime>Posted 8 hours ago</PostedTime>
         </List>
-        <ReadMore style={{color: "#0c6ca1"}}>
-          {props.status == "delivered" ? props.job.delivery_description : props.mode == "selling" ? props.job.description : props.job.cover
-          }
+        <ReadMore style={{ color: "#0c6ca1" }}>
+          {props.status === "delivered"
+            ? props.job.delivery_description
+            : props.mode === "selling"
+            ? props.job.description
+            : props.job.cover}
         </ReadMore>
-        <ButtonGroup>
-          
-        </ButtonGroup>
       </Card>
     </>
   );

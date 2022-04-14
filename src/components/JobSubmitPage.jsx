@@ -5,9 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "./Navbar";
 import Header from "./Header";
 import Footer from "./Footer";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Container = styled.div`
   width: 80%;
@@ -167,126 +166,144 @@ const TaskCancel = styled.button`
 `;
 
 const JobSubmitPage = (props) => {
-    const {username, id} = useParams();
-    const [user, setUser] = useState({})
-    const [app, setApp] = useState({});
-    const [desc, setDesc] = useState("");
-    const [file, setFile] = useState();
-    const navigate = useNavigate();
+  const { username, id } = useParams();
+  const [user, setUser] = useState({});
+  const [app, setApp] = useState({});
+  const [desc, setDesc] = useState("");
+  const [file, setFile] = useState();
+  const navigate = useNavigate();
 
-    useEffect(async ()=>{
-        let res = await axios.get(`https://young-cliffs-72209.herokuapp.com/getApplication/${id}`);
-        setApp(res.data);
+  useEffect(async () => {
+    let res = await axios.get(
+      `https://young-cliffs-72209.herokuapp.com/getApplication/${id}`
+    );
+    setApp(res.data);
 
-        res = await axios.get(`https://young-cliffs-72209.herokuapp.com/user/${username}`);
-        setUser(res.data)
-        console.log(user)
-    }, [user, app])
+    res = await axios.get(
+      `https://young-cliffs-72209.herokuapp.com/user/${username}`
+    );
+    setUser(res.data);
+    console.log(user);
+  }, [user, app]);
 
-    const cancel = () => {
-        navigate(`/dashboard/${user.username}`);
-    }
+  const cancel = () => {
+    navigate(`/dashboard/${user.username}`);
+  };
 
-    const success = () => {
-      toast("Successfull!")
-    }
-  
-    const incorrect = () => {
-      toast("There was an error while performing the task!")
-    }
+  const success = () => {
+    toast("Successfull!");
+  };
 
-    const submit = async () => {
-      if(user.mode == "selling"){
-        let obj = {}
-        obj["id"] = id;
-        obj["delivery_description"] = desc;
-        obj["file"] = file;
-        obj["status"] = "delivered"
-        let res = await axios.post(`https://young-cliffs-72209.herokuapp.com/submission`, obj);
-        if(res.data == "success"){
-          success();
-          setTimeout(()=>{props.closeModal(false);
-            navigate(`/dashboard/${user.username}`)}, 2000)
-        }else{
-          incorrect();
-        }
-      }else{
-        console.log(id)
-        let res = await axios.put(`https://young-cliffs-72209.herokuapp.com/changeToCompleted/${id}`)
-        console.log(res.data)
-        console.log("delivery accepted")
-        navigate(`/dashboard/${user.username}`)
+  const incorrect = () => {
+    toast("There was an error while performing the task!");
+  };
+
+  const submit = async () => {
+    if (user.mode === "selling") {
+      let obj = {};
+      obj["id"] = id;
+      obj["delivery_description"] = desc;
+      obj["file"] = file;
+      obj["status"] = "delivered";
+      let res = await axios.post(
+        `https://young-cliffs-72209.herokuapp.com/submission`,
+        obj
+      );
+      if (res.data === "success") {
+        success();
+        setTimeout(() => {
+          props.closeModal(false);
+          navigate(`/dashboard/${user.username}`);
+        }, 2000);
+      } else {
+        incorrect();
       }
+    } else {
+      console.log(id);
+      let res = await axios.put(
+        `https://young-cliffs-72209.herokuapp.com/changeToCompleted/${id}`
+      );
+      console.log(res.data);
+      console.log("delivery accepted");
+      navigate(`/dashboard/${user.username}`);
     }
+  };
   return (
-    <div style={{backgroundColor:"#28282B"}}>
-      <Navbar username={user.username}
-        mode = {user.mode}
-        firstname = {user.first}
+    <div style={{ backgroundColor: "#effffd" }}>
+      <Navbar
+        username={user.username}
+        mode={user.mode}
+        firstname={user.first}
       />
-      <Header 
-        username = {user.username}
-        mode = {user.mode}
-      />
-    <Container>
-      <Heading>Submit Job Task</Heading>
-      <MinContainer>
-        <JobName>{app.title}</JobName>
-        <ClientName>
-          {
-            user.mode == "selling" ? "Client: " : "Freelancer: "
-          }
-          {
-            user.mode == "selling" ? <span>{app.client}</span> : <span>{app.freelancer}</span>
-          }
-        </ClientName>
-        <Budget>
-          Budget:<span>${app.budget}</span>
-        </Budget>
-        <NumberofDays>
-          Number of Days Left:<span>{app.time} days</span>
-        </NumberofDays>
-        <SubmitTask>
-          <Group>
-            <LabelName style={{fontWeight:"bold"}}>{user.mode == "selling" ? "Describe your delivery" : "Description of delivery"}</LabelName>
-            <InputText 
-            value={desc}
-            placeholder={app.delivery_description}
-            disabled={user.mode != "selling"}
-            onChange={(e) => setDesc(e.target.value)}
-            />
-          </Group>
-          <Group>
-            <LabelName>{user.mode == "selling" ? "Attachment" : "Deliverable"}</LabelName>
-            <InputField type="file"
-            disabled={user.mode != "selling"}
-            onChange={(e) => setFile(e.target.value)}
-            />
-          </Group>
-          <ButtonGroup>
-            <TaskButton onClick={submit}>{user.mode == "selling" ? "Submit Task" : "Accept delivery"}</TaskButton>
-            <ToastContainer
-position="top-center"
-autoClose={1000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-background='#EE0022'
-/>
-            {
-              user.mode == "selling" ? 
-            <TaskCancel onClick={cancel}>Cancel</TaskCancel>:
-            <></>
-            }
-          </ButtonGroup>
-        </SubmitTask>
-      </MinContainer>
-    </Container>
-    <Footer />
+      <Header username={user.username} mode={user.mode} />
+      <Container>
+        <Heading>Submit Job Task</Heading>
+        <MinContainer>
+          <JobName>{app.title}</JobName>
+          <ClientName>
+            {user.mode == "selling" ? "Client: " : "Freelancer: "}
+            {user.mode == "selling" ? (
+              <span>{app.client}</span>
+            ) : (
+              <span>{app.freelancer}</span>
+            )}
+          </ClientName>
+          <Budget>
+            Budget:<span>${app.budget}</span>
+          </Budget>
+          <NumberofDays>
+            Number of Days Left:<span>{app.time} days</span>
+          </NumberofDays>
+          <SubmitTask>
+            <Group>
+              <LabelName style={{ fontWeight: "bold" }}>
+                {user.mode == "selling"
+                  ? "Describe your delivery"
+                  : "Description of delivery"}
+              </LabelName>
+              <InputText
+                value={desc}
+                placeholder={app.delivery_description}
+                disabled={user.mode != "selling"}
+                onChange={(e) => setDesc(e.target.value)}
+              />
+            </Group>
+            <Group>
+              <LabelName>
+                {user.mode == "selling" ? "Attachment" : "Deliverable"}
+              </LabelName>
+              <InputField
+                type="file"
+                disabled={user.mode != "selling"}
+                onChange={(e) => setFile(e.target.value)}
+              />
+            </Group>
+            <ButtonGroup>
+              <TaskButton onClick={submit}>
+                {user.mode == "selling" ? "Submit Task" : "Accept delivery"}
+              </TaskButton>
+              <ToastContainer
+                position="top-center"
+                autoClose={1000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                background="#EE0022"
+              />
+              {user.mode == "selling" ? (
+                <TaskCancel onClick={cancel}>Cancel</TaskCancel>
+              ) : (
+                <></>
+              )}
+            </ButtonGroup>
+          </SubmitTask>
+        </MinContainer>
+      </Container>
+      <Footer />
     </div>
   );
 };

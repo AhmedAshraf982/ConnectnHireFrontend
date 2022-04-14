@@ -1,14 +1,12 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import MessageNotify from "./MessageNotify";
-import axios from 'axios';
-
-
+import axios from "axios";
 
 const Container = styled.div`
   width: 250px;
   height: auto;
-  background-color: #7393B3;
+  background-color: #7393b3;
   border-radius: 5px;
   min-height: 0px;
   position: absolute;
@@ -42,28 +40,29 @@ const Container = styled.div`
 // `;
 
 const NotificationDropDown = (props) => {
-  const [user, setUser] = useState({})
-  const [notifications, setNotifications] = useState([])
-  useEffect(async ()=>{
-    let res = await axios.get(`https://young-cliffs-72209.herokuapp.com/user/${props.username}`)
-    setUser(res.data)
+  const [user, setUser] = useState({});
+  const [notifications, setNotifications] = useState([]);
+  useEffect(() => {
+    async function fetchData() {
+      let res = await axios.get(
+        `https://young-cliffs-72209.herokuapp.com/user/${props.username}`
+      );
+      setUser(res.data);
+    }
+    fetchData();
     // setNotifications(user.notifications.reverse())
-  })
+  }, [props.username]);
   return (
     <>
       <Container isOpen={props.showNotifications}>
         {/* <Pin>hi</Pin> */}
-        {
-          user.username != undefined ? 
-          user.notifications.map((noti, index)=>{
-            //   if(index < 10){
-                return(
-                    <MessageNotify chat={noti} />
-                  );
-            //   }
-          })
-          : "Login to get notifications!"
-        }
+        {user.username !== undefined
+          ? user.notifications.map((noti, index) => {
+              //   if(index < 10){
+              return <MessageNotify chat={noti} key={index} />;
+              //   }
+            })
+          : "Login to get notifications!"}
       </Container>
     </>
   );
