@@ -99,11 +99,11 @@ const Card = (props) => {
       {/* Available jobs */}
       <Container style={{ marginTop: 50 }}>
         {props.mode === "selling" ? (
-          <h1 style={{ color: "black", padding: 10, textAlign: "center" }}>
+          <h1 style={{ color: "black", padding: 10, textAlign: "center", fontWeight:"bold" }}>
             Available jobs
           </h1>
         ) : (
-          <h1 style={{ color: "black", padding: 10, textAlign: "center" }}>
+          <h1 style={{ color: "black", padding: 10, textAlign: "center", fontWeight:"bold" }}>
             Proposals
           </h1>
         )}
@@ -124,7 +124,7 @@ const Card = (props) => {
 
       <Container style={{ marginTop: 50 }}>
         {props.mode === "selling" ? (
-          <h1 style={{ color: "black", padding: 10, textAlign: "center" }}>
+          <h1 style={{ color: "black", padding: 10, textAlign: "center", fontWeight:"bold" }}>
             Applied jobs
           </h1>
         ) : (
@@ -147,7 +147,7 @@ const Card = (props) => {
       {/* Current Jobs */}
 
       <Container style={{ marginTop: 50 }}>
-        <h1 style={{ color: "black", padding: 10, textAlign: "center" }}>
+        <h1 style={{ color: "black", padding: 10, textAlign: "center", fontWeight:"bold" }}>
           Current jobs
         </h1>
         {current.map((curr, index) => {
@@ -165,7 +165,7 @@ const Card = (props) => {
       {/* Delivered Jobs */}
 
       <Container style={{ marginTop: 50 }}>
-        <h1 style={{ color: "black", padding: 10, textAlign: "center" }}>
+        <h1 style={{ color: "black", padding: 10, textAlign: "center", fontWeight:"bold" }}>
           Delivered jobs
         </h1>
         {delivered.map((deliver, index) => {
@@ -183,7 +183,7 @@ const Card = (props) => {
       {/* Completed Jobs */}
 
       <Container style={{ marginTop: 50 }}>
-        <h1 style={{ color: "black", padding: 10, textAlign: "center" }}>
+        <h1 style={{ color: "black", padding: 10, textAlign: "center", fontWeight:"bold" }}>
           Completed jobs
         </h1>
         {completed.map((comp, index) => {
