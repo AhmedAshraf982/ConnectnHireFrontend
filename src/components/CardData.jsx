@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-
+import { ButtonGroup } from "react-bootstrap";
+import ButtonSkill from "./ButtonSkill";
 const Card = styled.div`
   height: auto;
   min-height: 250px;
