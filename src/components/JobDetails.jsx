@@ -340,7 +340,7 @@ const JobDetails = () => {
   const [job, setJob] = useState({});
 
   const submitProposal = () => {
-    navigate(`/submitProposal/${username}/${id}`);
+    navigate(`/submitProposal/${username}/${id}`,{replace:true});
   };
 
   const success = () => {
@@ -368,36 +368,39 @@ const JobDetails = () => {
   const Reject = () => {};
 
   const Chat = () => {
-    navigate(`/messages/${job.client}/${job.freelancer}`);
+    navigate(`/messages/${job.client}/${job.freelancer}`,{replace:true});
   };
 
-  useEffect(async () => {
+  useEffect(() => {
+    async function fetchData(){
     let res = await axios.get(
       `https://young-cliffs-72209.herokuapp.com/user/${username}`
     );
     setMode(res.data.mode);
-    if (mode == "selling") {
+    if (mode === "selling") {
       res = await axios.get(
         `https://young-cliffs-72209.herokuapp.com/job/${id}`
       );
       setJob(res.data);
-    } else if (mode == "buying") {
+    } else if (mode === "buying") {
       res = await axios.get(
         `https://young-cliffs-72209.herokuapp.com/getApplication/${id}`
       );
       setJob(res.data);
     }
-  }, [job, mode]);
+  }
+  fetchData();
+  }, [mode, id, username]);
   return (
     <div style={{ backgroundColor: "#effffd" }}>
       <Navbar username={username} mode={mode} />
       <Header username={username} />
       <MainContainer>
         <Heading>
-          {mode == "selling" ? "Job Details" : "Application Details"}
+          {mode === "selling" ? "Job Details" : "Application Details"}
         </Heading>
         <h2 style={{ marginLeft: 100, color: "white" }}>
-          {mode == "selling"
+          {mode === "selling"
             ? "Client: " + job.client
             : "Freelancer: " + job.freelancer}
         </h2>
@@ -412,7 +415,7 @@ const JobDetails = () => {
                 <br />
                 {job.description}
               </Description>
-              {mode == "buying" ? (
+              {mode === "buying" ? (
                 <Description>
                   Cover Letter: <br />
                   <br />
@@ -453,7 +456,7 @@ const JobDetails = () => {
           </LargeContainer>
           <SmallContainer>
             <FirstContainer>
-              {mode == "selling" ? (
+              {mode === "selling" ? (
                 <SubmitButton onClick={submitProposal}>
                   {"Submit Proposal"}
                 </SubmitButton>
@@ -462,7 +465,7 @@ const JobDetails = () => {
                   {"Accept Proposal"}
                 </SubmitButton>
               )}
-              {mode == "buying" ? (
+              {mode === "buying" ? (
                 <>
                   <BookMark onClick={Reject}>Reject</BookMark>
                   <ChatButton onClick={Chat}>Chat</ChatButton>

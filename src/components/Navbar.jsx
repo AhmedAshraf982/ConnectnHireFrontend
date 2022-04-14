@@ -67,8 +67,7 @@ const MobileIcon = styled.div`
 
 const NavMenu = styled.ul`
   display: flex;
-  align-items: center;
-  margin-top: 12px;
+  align-items: center !importantß; ß
   margin-right: -22px;
   list-style: none;
   @media screen and (max-width: 768px) {
@@ -268,6 +267,9 @@ const Navbar = (props) => {
             <FaBars color="#aef5ff" />
           </MobileIcon>
           <NavMenu>
+          <NavItem>
+              <NavLinks onClick={()=>{navigate('/')}}>Home</NavLinks>
+            </NavItem>
             <NavItem>
               <NavLinks onClick={FindJob}>Find Job</NavLinks>
             </NavItem>

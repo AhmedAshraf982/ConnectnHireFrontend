@@ -6,7 +6,7 @@ import axios from "axios";
 const Container = styled.div`
   width: 250px;
   height: auto;
-  background-color: #7393b3;
+  background-color: #effffd;
   border-radius: 5px;
   min-height: 0px;
   position: absolute;
@@ -15,7 +15,7 @@ const Container = styled.div`
   top: 50px;
   display: flex;
   flex-direction: column;
-  border: 2px solid #0c6ca1;
+  border: 2px solid #42c2ff;
   transition: 0.5s all ease-in-out;
   opacity: ${({ isOpen }) => (isOpen ? "100%" : "0")};
   top: ${({ isOpen }) => (isOpen ? "50" : "50")};

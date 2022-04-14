@@ -15,6 +15,7 @@ const Modalbackground = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-y:scroll;
   top: 0;
   left: 0;
   transition: 0.2s ease-in-out;
@@ -26,13 +27,14 @@ const Container = styled.div`
   overflow-y: auto;
   width: 40%;
   height: 500px;
-  background-color: #7393b3;
+  background-color: #effffd;
   box-shadow: black 0px 5px 15px;
   display: flex;
   border-radius: 50px;
   flex-direction: column;
   padding: 25px;
   position: relative;
+  overflow-y:scroll;
   @media screen and (max-width: 950px) {
     width: 50%;
   }
