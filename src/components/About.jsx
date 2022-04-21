@@ -85,7 +85,7 @@ const About = () => {
               About Us:
             </text>
             <div style={{ marginTop: 50 }}>
-              <text style={{ color: "black", fontSize: 25 }}>
+              <text style={{ color: "black", fontSize: 25, textAlign: "center"}}>
                 An affordable platform for people in Pakistan with easier access
                 to job opportunities of free lancing and helps to connect with
                 clients without any hassle and to earn passive income. The
