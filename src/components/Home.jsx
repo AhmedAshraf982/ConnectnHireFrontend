@@ -15,19 +15,6 @@ import JobSubmitPage from "./JobSubmitPage";
 import axios from "axios";
 
 
-const Name = () => {
-  return(
-    <div style={{display:"flex", justifyContent:"center", alignItems:"center", marginTop: 100}}>
-      <div style={{display:"flex", flexDirection:"column", width:"80%"}}>
-        <text style={{fontSize:70, fontWeight:"bold", fontFamily: "lobster"}}>Connect n Hire</text>
-        <text style={{fontSize: 30, fontWeight:"bold", marginBottom: 100}}>Start finding talent today—there’s no cost until you hire!</text>
-      </div>
-    </div>
-
-  );
-
-}
-
 
 function App() {
   const [openSignin, setOpenSignin] = useState(false);
@@ -68,7 +55,6 @@ function App() {
       />
       <MessageDropDown />
 
-      <Name />
       <Header />
 
       <Card

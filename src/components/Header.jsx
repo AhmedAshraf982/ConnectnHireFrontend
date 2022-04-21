@@ -4,7 +4,18 @@ import img1 from "../images/img1.jpg";
 import img2 from "../images/img2.jpg";
 import img3 from "../images/img33.jpg";
 import img4 from "../images/img44.jpg";
+const Name = () => {
+  return(
+    <div style={{display:"flex", justifyContent:"center", alignItems:"center", marginTop: 100}}>
+      <div style={{display:"flex", flexDirection:"column", width:"80%"}}>
+        <text style={{fontSize:70, fontWeight:"bold", fontFamily: "lobster"}}>Connect n Hire</text>
+        <text style={{fontSize: 30, fontWeight:"bold", marginBottom: 100}}>Start finding talent today—there’s no cost until you hire!</text>
+      </div>
+    </div>
 
+  );
+
+}
 const Header = () => {
   const Data = [
     {
@@ -38,6 +49,8 @@ const Header = () => {
     borderRadius: "10px",
   };
   return (
+    <>
+    <Name />
     <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
       <div style={{width: "80%"}}>
     <Carousel fade={true} pause={false}>
@@ -65,6 +78,7 @@ const Header = () => {
     </Carousel>
     </div>
     </div>
+    </>
   );
 };
 

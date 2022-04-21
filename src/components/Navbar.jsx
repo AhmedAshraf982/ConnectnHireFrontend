@@ -28,7 +28,6 @@ const Nav = styled.nav`
 `;
 const NavbarContainer = styled.div`
   display: flex;
-  align-items: center;
   height: 80px;
   z-index: 1;
   width: 100%;
@@ -44,6 +43,7 @@ const NavbarContainer = styled.div`
 
 const Logo = styled.img`
   margin-left: 2rem;
+  font-size: 1.5rem;
   cursor: pointer;
 `;
 
@@ -62,14 +62,9 @@ const MobileIcon = styled.div`
 
 const NavMenu = styled.ul`
   display: flex;
-<<<<<<< HEAD
   align-items: center;
   justify-content: center;
   margin-top: 30px;
-=======
-  align-items: center !importantß; ß
-  margin-right: -22px;
->>>>>>> d2ac9b9e1f1ccf7bfac6bd59e0a36f21da430139
   list-style: none;
   @media screen and (max-width: 768px) {
     display: none;
@@ -221,6 +216,14 @@ const Navbar = (props) => {
       navigate(`/dashboard/${props.username}`, { replace: true });
     }
   };
+  const HomePage = () => {
+    if(props.username != "undefined"){
+      navigate(`/dashboard/${props.username}`, { replace: true });
+    }else{
+      navigate('/');
+    }
+   
+  }
 
   const FindJob = async () => {
     console.log("find job");
@@ -268,9 +271,11 @@ const Navbar = (props) => {
           <MobileIcon onClick={props.toggle}>
             <FaBars color="#42c2ff" />
           </MobileIcon>
-<<<<<<< HEAD
         </NavbarContainer>
         <NavMenu>
+        <NavItem>
+            <NavLinks onClick={HomePage}>Home</NavLinks>
+          </NavItem>
           <NavItem>
             <NavLinks onClick={FindJob}>Find Job</NavLinks>
           </NavItem>
@@ -306,45 +311,6 @@ const Navbar = (props) => {
         </NavMenu>
 
         <div>
-=======
-          <NavMenu>
-          <NavItem>
-              <NavLinks onClick={()=>{navigate('/')}}>Home</NavLinks>
-            </NavItem>
-            <NavItem>
-              <NavLinks onClick={FindJob}>Find Job</NavLinks>
-            </NavItem>
-            <NavItem>
-              <NavLinks onClick={PostJob}>Post Job</NavLinks>
-            </NavItem>
-            <NavItem>
-              <NavLinks
-                onClick={() => {
-                  setShowMessage(!showMessage);
-                  setShowNotifications(showNotifications);
-                }}
-              >
-                Message
-                {read == "unread" ? <Dot /> : ""}
-              </NavLinks>
-            </NavItem>
-            <NavItem>
-              <NavLinks
-                onClick={() => {
-                  setShowNotifications(!showNotifications);
-                  setShowMessage(showMessage);
-                  markNotificationsRead();
-                }}
-              >
-                Notifications
-                {notiRead === "unread" ? <Dot /> : ""}
-              </NavLinks>
-            </NavItem>
-            <NavItem>
-              <NavLinks onClick={about}>About Us</NavLinks>
-            </NavItem>
-          </NavMenu>
->>>>>>> d2ac9b9e1f1ccf7bfac6bd59e0a36f21da430139
           <NavButton>
             {!props.username ? (
               <>

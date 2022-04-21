@@ -12,10 +12,10 @@ const Container = styled.div`
   width: 80%;
   height: auto;
   min-height: 80%;
-  background-color: #42c2ff;
+  background-color: #b8fff9;
   display: flex;
   flex-direction: column;
-  margin: 1rem 5rem 0 auto;
+  margin: auto;
   @media screen and (max-width: 768px) {
     width: 100%;
     transition: 0.8s all ease-in-out;
@@ -23,11 +23,12 @@ const Container = styled.div`
 `;
 
 const Heading = styled.h5`
-  text-align: left;
-  font-size: 1.5rem;
+  text-align: center;
+  font-size: 2rem;
   background-color: #28282b;
   color: white;
   padding: 1rem;
+  font-weight: bold;
   @media screen and (max-width: 768px) {
     text-align: center;
     transition: 0.3s all ease-in-out;
@@ -38,7 +39,6 @@ const MinContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  border: 1px solid #0c6ac1;
   border-radius: 5px;
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -188,8 +188,7 @@ const PostaJob = () => {
   return (
     <div style={{ backgroundColor: "#effffd" }}>
       <Navbar username={username} mode={"buying"} />
-      <Header username={username} mode={"buying"} />
-      <Container>
+      <Container style={{marginTop: 80}}>
         <Heading>Post a Job</Heading>
         <MinContainer>
           <FormGroup>

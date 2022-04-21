@@ -39,6 +39,7 @@ const About = () => {
         mode={user.mode}
         firstname={user.first}
       />
+      <Header />
       <MessageDropDown user={user.username} />
       <div style={{ display: "flex", justifyContent: "center" }}>
         <div style={{ width: "90%", marginTop: 50 }}>
@@ -77,7 +78,7 @@ const About = () => {
             <text
               style={{
                 color: "black",
-                fontSize: 30,
+                fontSize: 40,
                 fontWeight: "bold",
                 textAlign: "center",
               }}

@@ -100,7 +100,7 @@ const Card = (props) => {
       <Container style={{ marginTop: 50 }}>
         {props.mode === "selling" ? (
           <h1 style={{ color: "black", padding: 10, textAlign: "center", fontWeight:"bold" }}>
-            Available jobs
+            Available Jobs
           </h1>
         ) : (
           <h1 style={{ color: "black", padding: 10, textAlign: "center", fontWeight:"bold" }}>
@@ -125,7 +125,7 @@ const Card = (props) => {
       <Container style={{ marginTop: 50 }}>
         {props.mode === "selling" ? (
           <h1 style={{ color: "black", padding: 10, textAlign: "center", fontWeight:"bold" }}>
-            Applied jobs
+            Applied Jobs
           </h1>
         ) : (
           <></>
@@ -148,7 +148,7 @@ const Card = (props) => {
 
       <Container style={{ marginTop: 50 }}>
         <h1 style={{ color: "black", padding: 10, textAlign: "center", fontWeight:"bold" }}>
-          Current jobs
+          Current Jobs
         </h1>
         {current.map((curr, index) => {
           return (
@@ -166,7 +166,7 @@ const Card = (props) => {
 
       <Container style={{ marginTop: 50 }}>
         <h1 style={{ color: "black", padding: 10, textAlign: "center", fontWeight:"bold" }}>
-          Delivered jobs
+          Delivered Jobs
         </h1>
         {delivered.map((deliver, index) => {
           return (
@@ -184,7 +184,7 @@ const Card = (props) => {
 
       <Container style={{ marginTop: 50 }}>
         <h1 style={{ color: "black", padding: 10, textAlign: "center", fontWeight:"bold" }}>
-          Completed jobs
+          Completed Jobs
         </h1>
         {completed.map((comp, index) => {
           return (
