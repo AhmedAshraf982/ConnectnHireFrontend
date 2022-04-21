@@ -224,7 +224,6 @@ const Register = (props) => {
       last,
       username,
       email,
-      password,
     });
     if (res.data === "success") {
       success();
