@@ -26,7 +26,7 @@ const Container = styled.div`
   overflow-y: auto;
   width: 30%;
   height: 500px;
-  background-color: #7393b3;
+  background-color: #effffd;
   box-shadow: black 0px 5px 15px;
   display: flex;
   border-radius: 50px;
@@ -166,7 +166,7 @@ const Login = (props) => {
         success();
         setTimeout(() => {
           props.closeModal(false);
-          navigate(`/dashboard/${username}`);
+          navigate(`/dashboard/${username}`,{replace:true});
         }, 2000);
       } else {
         incorrect();

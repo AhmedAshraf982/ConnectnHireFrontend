@@ -12,7 +12,7 @@ const Container = styled.div`
   width: 80%;
   height: auto;
   min-height: 80%;
-  background-color: #7393b3;
+  background-color: #42c2ff;
   display: flex;
   flex-direction: column;
   margin: 1rem 5rem 0 auto;
@@ -151,7 +151,7 @@ const PostaJob = () => {
   console.log(username);
 
   const cancel = () => {
-    navigate(`/dashboard/${username}`);
+    navigate(`/dashboard/${username}`,{replace:true});
   };
   const postJob = async () => {
     let skills_ = skills.split(",");

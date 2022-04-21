@@ -173,8 +173,8 @@ const JobSubmitPage = (props) => {
   const [file, setFile] = useState();
   const navigate = useNavigate();
 
-  useEffect(async () => {
-    let res = await axios.get(
+  useEffect(() => {
+    async function fetchData(){    let res = await axios.get(
       `https://young-cliffs-72209.herokuapp.com/getApplication/${id}`
     );
     setApp(res.data);
@@ -184,10 +184,12 @@ const JobSubmitPage = (props) => {
     );
     setUser(res.data);
     console.log(user);
-  }, [user, app]);
+    }
+    fetchData();
+  }, [username, id]);
 
   const cancel = () => {
-    navigate(`/dashboard/${user.username}`);
+    navigate(`/dashboard/${user.username}`,{replace:true});
   };
 
   const success = () => {

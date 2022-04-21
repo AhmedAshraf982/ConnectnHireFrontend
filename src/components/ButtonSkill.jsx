@@ -10,8 +10,8 @@ const Button = styled.button`
   background-color: rgba(1, 5, 6, 0.5);
 `;
 
-const ButtonSkill = () => {
-  return <Button>Button</Button>;
+const ButtonSkill = (props) => {
+  return <Button>{props.skill}</Button>;
 };
 
 export default ButtonSkill;

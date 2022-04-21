@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-
+import { ButtonGroup } from "react-bootstrap";
+import ButtonSkill from "./ButtonSkill";
 const Card = styled.div`
   height: auto;
   min-height: 250px;
@@ -21,10 +22,7 @@ const Title = styled.h5`
   margin: 2rem;
   font-size: 1.2rem;
   font-weight: bold;
-  color: #0c6ca1;
-  &:hover {
-    color: black;
-  }
+  color: black;
   @media screen and (max-width: 768px) {
     font-size: 1rem;
     margin: 0.5rem 2rem;
@@ -65,27 +63,20 @@ const PriceType = styled.p`
 `;
 const Level = styled.p`
   margin-right: 0.5rem;
-  color: #0c6ca1;
-  &:hover {
-    color: black;
-  }
+  color: black;
   opacity: 0.8;
   font-size: 0.9rem;
 `;
 const Budget = styled.p`
-  color: #0c6ca1;
-  &:hover {
+
     color: black;
-  }
   margin-right: 0.5rem;
   opacity: 0.8;
   font-size: 0.9rem;
 `;
 const PostedTime = styled.p`
-  color: #0c6ca1;
-  &:hover {
+  
     color: black;
-  }
   margin-right: 0.5rem;
   opacity: 0.8;
   font-size: 0.9rem;
@@ -165,13 +156,20 @@ const CardData = (props) => {
           <Budget>Est.Budget: {props.job.budget}</Budget>
           <PostedTime>Posted 8 hours ago</PostedTime>
         </List>
-        <ReadMore style={{ color: "#0c6ca1" }}>
+        <ReadMore style={{ color: "#0c6ca1", marginBottom:"10" }}>
           {props.status === "delivered"
             ? props.job.delivery_description
             : props.mode === "selling"
             ? props.job.description
             : props.job.cover}
         </ReadMore>
+        <ButtonGroup>
+        {
+          props.job.skills.map((skill)=>{
+            <ButtonSkill skill={skill} />
+          })
+        }
+        </ButtonGroup>
       </Card>
     </>
   );

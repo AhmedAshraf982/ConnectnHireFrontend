@@ -24,12 +24,14 @@ const About = () => {
   const { username, other } = useParams();
   const [user, setUser] = useState({});
 
-  useEffect(async () => {
-    let res = await axios.get(
+  useEffect(() => {
+    async function fetchData(){    let res = await axios.get(
       `https://young-cliffs-72209.herokuapp.com/user/${username}`
     );
     setUser(res.data);
-  });
+    }
+    fetchData();
+  },[username]);
   return (
     <div style={{ backgroundColor: "#EFFFFD" }}>
       <Navbar
