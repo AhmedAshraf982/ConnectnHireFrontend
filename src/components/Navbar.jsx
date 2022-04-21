@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link as LinkR, useNavigate } from "react-router-dom";
 import { Link as LinkS } from "react-scroll";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaUser } from "react-icons/fa";
 import { AiFillSetting } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
 import MessageDropDown from "./MessageDropDown";
@@ -12,9 +12,9 @@ import logo from "./logo.png";
 
 const Nav = styled.nav`
   height: 80px;
-  background-color: black;
+  background-color: #effffd;
+  justify-content: space-between;
   display: flex;
-  justify-content: center;
   align-items: center;
   font-size: 1rem;
   position: sticky;
@@ -28,28 +28,23 @@ const Nav = styled.nav`
 `;
 const NavbarContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  align-items: center;
   height: 80px;
   z-index: 1;
   width: 100%;
-  padding: 0 1.5rem;
-  max-width: 1100px;
+  padding: 0 1rem;
+  max-width: 100px;
   position: relative;
   @media screen and (max-width: 960px) {
     height: 60px;
     transition: 0.8s all ease;
+    max-width: 1100px;
   }
 `;
 
 const Logo = styled.img`
-  display: flex;
-  justify-self: flex-start;
-  align-items: center;
-  font-weight: bold;
-  font-size: 1.5rem;
-  margin-left: 1rem;
+  margin-left: 2rem;
   cursor: pointer;
-  text-decoration: none;
 `;
 
 const MobileIcon = styled.div`
@@ -59,7 +54,7 @@ const MobileIcon = styled.div`
     position: absolute;
     top: 0;
     right: 0;
-    transform: translate(-100%, 60%);
+    transform: translate(-100%, 20%);
     font-size: 1.8rem;
     cursor: pointer;
   }
@@ -68,8 +63,8 @@ const MobileIcon = styled.div`
 const NavMenu = styled.ul`
   display: flex;
   align-items: center;
-  margin-top: 12px;
-  margin-right: -22px;
+  justify-content: center;
+  margin-top: 30px;
   list-style: none;
   @media screen and (max-width: 768px) {
     display: none;
@@ -103,6 +98,7 @@ const NavLinks = styled(LinkS)`
 
 const NavButton = styled.div`
   display: flex;
+  justify-content: flex-end;
   align-items: center;
   margin-right: 1.5rem;
   @media screen and (max-width: 768px) {
@@ -115,7 +111,6 @@ const Button = styled.button`
   background-color: #effffd;
   font-size: 16px;
   color: #42c2ff;
-  margin-left: 1rem;
   padding: 10px 22px;
   border-radius: 50px;
   cursor: pointer;
@@ -265,46 +260,56 @@ const Navbar = (props) => {
         <NavbarContainer>
           <Logo src={logo} alt="logo" />
           <MobileIcon onClick={props.toggle}>
-            <FaBars color="#aef5ff" />
+            <FaBars color="#42c2ff" />
           </MobileIcon>
-          <NavMenu>
-            <NavItem>
-              <NavLinks onClick={FindJob}>Find Job</NavLinks>
-            </NavItem>
-            <NavItem>
-              <NavLinks onClick={PostJob}>Post Job</NavLinks>
-            </NavItem>
-            <NavItem>
-              <NavLinks
-                onClick={() => {
-                  setShowMessage(!showMessage);
-                  setShowNotifications(showNotifications);
-                }}
-              >
-                Message
-                {read == "unread" ? <Dot /> : ""}
-              </NavLinks>
-            </NavItem>
-            <NavItem>
-              <NavLinks
-                onClick={() => {
-                  setShowNotifications(!showNotifications);
-                  setShowMessage(showMessage);
-                  markNotificationsRead();
-                }}
-              >
-                Notifications
-                {notiRead === "unread" ? <Dot /> : ""}
-              </NavLinks>
-            </NavItem>
-            <NavItem>
-              <NavLinks onClick={about}>About Us</NavLinks>
-            </NavItem>
-          </NavMenu>
+        </NavbarContainer>
+        <NavMenu>
+          <NavItem>
+            <NavLinks onClick={FindJob}>Find Job</NavLinks>
+          </NavItem>
+          <NavItem>
+            <NavLinks onClick={PostJob}>Post Job</NavLinks>
+          </NavItem>
+          <NavItem>
+            <NavLinks
+              onClick={() => {
+                setShowMessage(!showMessage);
+                setShowNotifications(showNotifications);
+              }}
+            >
+              Message
+              {read === "unread" ? <Dot /> : ""}
+            </NavLinks>
+          </NavItem>
+          <NavItem>
+            <NavLinks
+              onClick={() => {
+                setShowNotifications(!showNotifications);
+                setShowMessage(showMessage);
+                markNotificationsRead();
+              }}
+            >
+              Notifications
+              {notiRead === "unread" ? <Dot /> : ""}
+            </NavLinks>
+          </NavItem>
+          <NavItem>
+            <NavLinks onClick={about}>About Us</NavLinks>
+          </NavItem>
+        </NavMenu>
+
+        <div>
           <NavButton>
             {!props.username ? (
               <>
                 <Button
+                  onClick={() => {
+                    props.closeLoginModal(true);
+                  }}
+                >
+                  <FaUser color="#42c2ff" />
+                </Button>
+                {/* <Button
                   onClick={() => {
                     props.closeLoginModal(true);
                   }}
@@ -317,7 +322,7 @@ const Navbar = (props) => {
                   }}
                 >
                   Sign Up
-                </Button>
+                </Button> */}
               </>
             ) : (
               <Button
@@ -342,7 +347,7 @@ const Navbar = (props) => {
               />
             )}
           </NavButton>
-        </NavbarContainer>
+        </div>
         {dropshow && (
           <DropDown>
             <UserName>{props.firstname}</UserName>
